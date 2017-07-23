@@ -1,0 +1,12 @@
+1.65s   309596  https://vn.yahoo.com
+1.67s   309597  https://vn.yahoo.com
+1.67s elapsed
+0.18s   279113  https://vnexpress.net
+0.18s   279113  https://vnexpress.net
+0.18s elapsed
+0.16s   279093  https://vnexpress.net
+0.17s   279093  https://vnexpress.net
+0.17s elapsed
+0.58s   309596  https://vn.yahoo.com
+0.62s   309596  https://vn.yahoo.com
+0.62s elapsed
