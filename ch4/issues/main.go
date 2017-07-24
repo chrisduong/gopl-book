@@ -12,7 +12,8 @@ import (
 	"log"
 	"os"
 
-	"gopl.io/ch4/github"
+	// "gopl.io/ch4/github"
+	"github.com/chrisduong/gopl.io/ch4/github"
 )
 
 //!+
