@@ -31,6 +31,7 @@ func main() {
 			fmt.Fprintf(os.Stderr, "charcount: %v\n", err)
 			os.Exit(1)
 		}
+		// ReadRune() would convert invalid unicode char to ReplacementChar
 		if r == unicode.ReplacementChar && n == 1 {
 			invalid++
 			continue
