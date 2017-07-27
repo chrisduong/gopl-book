@@ -13,6 +13,20 @@ import (
 	"unicode/utf8"
 )
 
+// Unicode categories
+const (
+	CharIsSpace = iota
+	CharIsSymbol
+	CharIsMark
+	CharIsDigit
+	CharIsPrint
+	CharIsPunct
+	CharIsLetter
+	CharIsNumber
+	CharIsControl
+	CharIsGraphic
+)
+
 //!+
 func main() {
 	counts := make(map[rune]int)    // counts of Unicode characters
