@@ -60,14 +60,15 @@ func main() {
 	}
 	fmt.Printf("rune categories\tcount\n")
 	for i, n := range counts {
-		switch i {
-		case CharIsSpace:
-			catname = "Space"
-		case CharIsSymbol:
-			catname = "Symbol"
+		if n != 0 {
+			switch i {
+			case CharIsSpace:
+				catname = "Space"
+			case CharIsSymbol:
+				catname = "Symbol"
+			}
+			fmt.Printf("%s\t\t%d\n", catname, n)
 		}
-		// TODO: should not print if n is nil
-		fmt.Printf("%s\t\t%d\n", catname, n)
 	}
 	fmt.Print("\nlen\tcount\n")
 	for i, n := range utflen {
