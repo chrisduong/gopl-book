@@ -29,8 +29,9 @@ const (
 
 //!+
 func main() {
-	counts := make(map[rune]int)    // counts of Unicode characters
+	var counts [10]int              // counts of Unicode categories which has max 10 length
 	var utflen [utf8.UTFMax + 1]int // count of lengths of UTF-8 encodings
+	var catname string              // Categorie name
 	invalid := 0                    // count of invalid UTF-8 characters
 
 	in := bufio.NewReader(os.Stdin)
@@ -48,12 +49,25 @@ func main() {
 			invalid++
 			continue
 		}
-		counts[r]++
+		// Count every category
+		switch {
+		case unicode.IsSpace(r):
+			counts[CharIsSpace]++
+		case unicode.IsSymbol(r):
+			counts[CharIsSymbol]++
+		}
 		utflen[n]++
 	}
-	fmt.Printf("rune\tcount\n")
-	for c, n := range counts {
-		fmt.Printf("%q\t%d\n", c, n)
+	fmt.Printf("rune categories\tcount\n")
+	for i, n := range counts {
+		switch i {
+		case CharIsSpace:
+			catname = "Space"
+		case CharIsSymbol:
+			catname = "Symbol"
+		}
+		// TODO: should not print if n is nil
+		fmt.Printf("%s\t\t%d\n", catname, n)
 	}
 	fmt.Print("\nlen\tcount\n")
 	for i, n := range utflen {
