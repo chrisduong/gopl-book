@@ -11,9 +11,12 @@ import (
 func main() {
 	counts := make(map[string]int)
 	input := bufio.NewScanner(os.Stdin)
-	// NOTE: Don't know why no parameters is accepted for `bufio.ScanWords`.
-	// MAYBE: input is already a Scanner so it is OK.
-	// Split words in Scanner
+	// NOTE: See this example from bufio package to know the use case of ScanWords:
+	//* https://golang.org/pkg/bufio/#example_Scanner_words
+	// XXX: Read EmptyFinalToken https://play.golang.org/p/IlLOzWfThf to understand the way override default split function `func(data []byte, atEOF bool) (advance int, token []byte, err error)`
+	//-- Return the index of the rest tokens, the next token, and error if any.
+
+	// Apply `ScanWords function` on Split
 	input.Split(bufio.ScanWords)
 	for input.Scan() {
 		counts[input.Text()]++
