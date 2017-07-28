@@ -28,4 +28,13 @@ func main() {
 	}
 }
 
-//!-
+//!-Input:
+//`co 2
+// co 2
+// khong
+// co 3
+// co 3
+// co 3
+//!- Output:
+// 2	co 2
+// 3	co 3
