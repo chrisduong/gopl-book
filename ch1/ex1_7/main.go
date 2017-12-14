@@ -28,7 +28,7 @@ func main() {
 		}
 		if _, err := io.Copy(os.Stdout, resp.Body); err != nil {
 			fmt.Fprintf(os.Stderr, "fetch: reading %s: %v\n", url, err)
-			resp.Body.Close()
+			resp.Body.Close() // Don't leak resources
 			os.Exit(1)
 		}
 
