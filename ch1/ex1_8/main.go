@@ -15,10 +15,14 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 )
 
 func main() {
 	for _, url := range os.Args[1:] {
+		if !strings.HasPrefix(url, "http://") {
+			url = "http://" + url
+		}
 		resp, err := http.Get(url)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
@@ -29,14 +33,13 @@ func main() {
 			resp.Body.Close()
 			os.Exit(1)
 		}
-
 	}
 }
 
 //!-
 
 //!+ TEST
-// go run ch1/ex1_8/main.go https://golang.org
-// go run ch1/ex1_8/main.go golang.org
+// go run ch1/ex1_8/main.go http://gopl.io
+// go run ch1/ex1_8/main.go gopl.io
 
 //!-
