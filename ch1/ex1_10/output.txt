@@ -1,12 +1,9 @@
-1.65s   309596  https://vn.yahoo.com
-1.67s   309597  https://vn.yahoo.com
-1.67s elapsed
-0.18s   279113  https://vnexpress.net
-0.18s   279113  https://vnexpress.net
-0.18s elapsed
-0.16s   279093  https://vnexpress.net
-0.17s   279093  https://vnexpress.net
-0.17s elapsed
-0.58s   309596  https://vn.yahoo.com
-0.62s   309596  https://vn.yahoo.com
-0.62s elapsed
+0.51s    11391  https://google.com
+0.89s   323696  https://facebook.com
+2.29s   529771  https://youtube.com
+2.29s elapsed
+0.39s    11361  https://google.com
+0.89s   323401  https://facebook.com
+0.92s   323694  https://facebook.com
+1.84s   470402  https://youtube.com
+1.85s elapsed
