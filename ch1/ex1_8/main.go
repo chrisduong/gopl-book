@@ -1,7 +1,7 @@
 // Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
 // License: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
-// See page 62.
+// See page 62. Ex 1.8.
 // Modify fetch to add the prefix http:// to each argument URL
 // if it is missing. You might want to use strings.HasPrefix
 
@@ -26,9 +26,9 @@ func main() {
 		}
 		if _, err := io.Copy(os.Stdout, resp.Body); err != nil {
 			fmt.Fprintf(os.Stderr, "fetch: reading %s: %v\n", url, err)
+			resp.Body.Close()
 			os.Exit(1)
 		}
-		resp.Body.Close()
 
 	}
 }
