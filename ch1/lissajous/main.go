@@ -2,7 +2,7 @@
 // License: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 // Run with "web" command-line argument for web server.
-// See page 13.
+// See page 54
 //!+main
 
 // Lissajous generates GIF animations of random Lissajous figures.
@@ -84,3 +84,11 @@ func lissajous(out io.Writer) {
 }
 
 //!-main
+//!+RUN
+// 1. Run to export GIF file
+// $ go run main > out.gif
+// 2. Run as a web service
+// $ go run main web
+// open http://localhost:8000
+
+//!-RUN
