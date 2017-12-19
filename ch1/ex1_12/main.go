@@ -15,22 +15,22 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"image/gif"
 	"io"
+	"log"
 	"math"
 	"math/rand"
+	"net/http"
 	"os"
+	"strconv"
+	"time"
 )
 
 //!-main
 // Packages not needed by version in book.
-import (
-	"log"
-	"net/http"
-	"time"
-)
 
 //!+main
 
@@ -46,22 +46,38 @@ func main() {
 	// The sequence of images is deterministic unless we seed
 	// the pseudo-random number generator using the current time.
 	// Thanks to Randall McPherson for pointing out the omission.
+	var cycles = 5
 	rand.Seed(time.Now().UTC().UnixNano())
 
 	if len(os.Args) > 1 && os.Args[1] == "web" {
-		//!+http
-		handler := func(w http.ResponseWriter, r *http.Request) {
-			lissajous(w, 5)
-		}
 		http.HandleFunc("/", handler)
 		//!-http
 		log.Fatal(http.ListenAndServe("localhost:8000", nil))
 		return
 	}
 	//!+main
-	lissajous(os.Stdout, 5)
+	lissajous(os.Stdout, cycles)
 }
 
+func handler(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		log.Print(err)
+	}
+
+	cyclesStr := r.FormValue("cycles")
+
+	if cyclesStr != "" {
+		cycles, err := strconv.Atoi(cyclesStr)
+		if err != nil {
+			fmt.Fprintf(w, "bad parameter for cycles: %s", cyclesStr, err)
+			return
+		}
+		lissajous(w, cycles)
+	}
+
+}
+
+// func lissajouse
 // `cycles`: number of complete x oscillator revolutions
 func lissajous(out io.Writer, cycles int) {
 	const (
