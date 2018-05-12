@@ -10,8 +10,8 @@ package popcount
 // pc[i] is the population count of i.
 var pc [256]byte
 
-// This array represent the the number of set bits from 0 to 255 (maximum number of 1 byte - 2**8-1)
-// The next number's set bits will be "the its 1 shifted Right number" (half index/value)
+// This array represents  the number of set bits from 0 to 255 (maximum number of 1 byte - 2**8-1)
+// The next number's set bits will be " its 1 shifted Right number" (half index/value)
 // + 1 if it is odd
 func init() {
 	for i := range pc {
