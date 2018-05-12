@@ -5,8 +5,8 @@ package popcount2_test
 import (
 	"testing"
 
-	"github.com/chrisduong/gopl.io/ch2/popcount"
-	"github.com/chrisduong/gopl.io/ch2/popcount2"
+	"github.com/chrisduong/gopl-book/ch2/popcount"
+	"github.com/chrisduong/gopl-book/ch2/popcount2"
 )
 
 // -- Alternative implementations --
