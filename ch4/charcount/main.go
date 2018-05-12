@@ -55,3 +55,6 @@ func main() {
 }
 
 //!-
+
+// TEST:
+// echo 'fafafa' | go run ch4/charcount/main.go
