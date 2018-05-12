@@ -1,0 +1,9 @@
+0.51s    11391  https://google.com
+0.89s   323696  https://facebook.com
+2.29s   529771  https://youtube.com
+2.29s elapsed
+0.39s    11361  https://google.com
+0.89s   323401  https://facebook.com
+0.92s   323694  https://facebook.com
+1.84s   470402  https://youtube.com
+1.85s elapsed

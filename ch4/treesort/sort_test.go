@@ -8,10 +8,13 @@ import (
 	"sort"
 	"testing"
 
-	"gopl.io/ch4/treesort"
+	"github.com/chrisduong/gopl.io/ch4/treesort"
 )
 
 func TestSort(t *testing.T) {
+	// TEST: with non random Slice
+	// data := []int{7, 39, 40, 6, 5, 71}
+
 	data := make([]int, 50)
 	for i := range data {
 		data[i] = rand.Int() % 50
