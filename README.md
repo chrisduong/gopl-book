@@ -1,21 +1,30 @@
-# The Go Programming Language
+# The Go Programming Language Book
 
-This repository provides the downloadable example programs
-for the book, "The Go Programming Language"; see http://www.gopl.io.
+**Original sourcecode:** [adonovan/gopl.io](https://github.com/adonovan/gopl.io)
 
-These example programs are licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br/>
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/></a>
 
-You can download, build, and run the programs with the following commands:
+## Excercises
 
-	$ export GOPATH=$HOME/gobook            # choose workspace directory
-	$ go get gopl.io/ch1/helloworld         # fetch, build, install
-	$ $GOPATH/bin/helloworld                # run
-	Hello, 世界
+### Chapter 2
 
-Many of the programs contain comments of the form `//!+` and `//!-`.
-These comments bracket the parts of the programs that are excerpted in the
-book; you can safely ignore them.  In a few cases, programs
-have been reformatted in an unnatural way so that they can be presented
-in stages in the book.
+**Ex. 2.3:** `popcount2` package.
 
+There are other implementations for PopCount: _BitCount_, _PopCountByClearing_,
+_PopCountByShifting_; see in `popcount_test`.
+
+Explain why `popcount2` is slower:
+
+    ❯ go test -bench=.
+    goos: darwin
+    goarch: amd64
+    pkg: github.com/chrisduong/gopl.io/ch2/popcount2
+    BenchmarkPopCount-4             	2000000000	         0.31 ns/op
+    BenchmarkPopCount2-4            	100000000	        17.9 ns/op
+    BenchmarkBitCount-4             	2000000000	         0.31 ns/op
+    BenchmarkPopCountByClearing-4   	50000000	        30.4 ns/op
+    BenchmarkPopCountByShifting-4   	20000000	        87.4 ns/op
+    PASS
+    ok  	github.com/chrisduong/gopl.io/ch2/popcount2	6.523s
+
+    * Recap *
+    The PopCount2 using loop will be slower because it need extra variable (initialization time) and every iteration also take time.
