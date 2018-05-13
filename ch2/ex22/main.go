@@ -15,6 +15,10 @@ type Feet float64
 
 type Meter float64
 
+type Measurement interface {
+	String() string
+}
+
 type Pound float64
 
 type Kilogram float64
