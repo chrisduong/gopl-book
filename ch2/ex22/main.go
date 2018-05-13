@@ -7,6 +7,10 @@ import (
 	"strconv"
 )
 
+// XXX: the exercise suggested that the input can say about its Measurement,
+// like 30.3ft, 3.3m, 70.23kg, 20lbs
+// TODO: how to capture the floating point number prefix
+
 type Feet float64
 
 type Meter float64
