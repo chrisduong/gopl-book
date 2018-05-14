@@ -12,11 +12,16 @@ import (
 
 // XXX: the exercise suggested that the input can say about its Measurement,
 // like 30.3ft, 3.3m, 70.23kg, 20lbs
-// TODO: how to capture the floating point number prefix
 
 type Feet float64
 
 type Meter float64
+
+// Distance (aggregate struct) to contain both meter and feet values
+type Distance struct {
+	meter Meter
+	feet  Feet
+}
 
 // Measurement interface to conditionally print corresponding Unit type
 type Measurement interface {
@@ -61,7 +66,7 @@ func makeMeasurement(f float64, unit string) Measurement {
 }
 
 // analyseInput use Regex to capture Value and Unit kind if it is input correctly
-func analyseInput(s string) (float64, string, error) {
+func analyseInput(s string) (float64, string) {
 	// Can you https://regex101.com to quickly golang regexp
 	re := regexp.MustCompile(`(^-?\d+(?:\.\d+)?)([A-Za-z]+)`)
 	match := re.FindStringSubmatch(s)
@@ -80,7 +85,7 @@ func analyseInput(s string) (float64, string, error) {
 		log.Fatalf("Not supported unit %q", unit)
 	}
 
-	return v, unit, nil
+	return v, unit
 }
 
 // FeetToMeter converts Feet to Meter
@@ -93,34 +98,16 @@ func main() {
 	if len(os.Args) > 1 {
 		for _, arg := range os.Args[1:] {
 
-			v, unit, err := analyseInput(arg)
-			if err != nil {
-				fmt.Printf("An Input error occurred %q", err)
-				os.Exit(2)
-			}
-
+			v, unit := analyseInput(arg)
 			m := makeMeasurement(v, unit)
-			if err != nil {
-				fmt.Printf("%q", err)
-				os.Exit(2)
-			}
 			fmt.Printf("You input this measurement %s", m.String())
 		}
 	} else {
 		scan := bufio.NewScanner(os.Stdin)
 		for scan.Scan() {
 			s := scan.Text()
-			v, unit, err := analyseInput(s)
-			if err != nil {
-				fmt.Printf("An Input error occurred %q", err)
-				os.Exit(2)
-			}
-
+			v, unit := analyseInput(s)
 			m := makeMeasurement(v, unit)
-			if err != nil {
-				fmt.Printf("%q", err)
-				os.Exit(2)
-			}
 			fmt.Printf("You input this measurement %s", m.String())
 		}
 	}
