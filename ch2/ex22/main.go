@@ -35,16 +35,28 @@ func (m Meter) String() string {
 	return fmt.Sprintf("%.3gm", m)
 }
 
+// isValidUnit will check if the string name is a valid unit
+func isValidUnit(s string) bool {
+	switch s {
+	case
+		"m",
+		"ft":
+		return true
+	default:
+		return false
+	}
+}
+
 // makeMeasurement return the specific measurement
-func makeMeasurement(f float64, unit string) (Measurement, error) {
+func makeMeasurement(f float64, unit string) Measurement {
 	unit = strings.ToLower(unit)
 	switch unit {
 	case "m":
-		return Meter(f), nil
+		return Meter(f)
 	case "ft":
-		return Feet(f), nil
+		return Feet(f)
 	default:
-		return nil, fmt.Errorf("Unexpected unit %v", unit)
+		return nil
 	}
 }
 
@@ -64,6 +76,9 @@ func analyseInput(s string) (float64, string, error) {
 		log.Fatalf("No unit specified.")
 	}
 	unit := match[2]
+	if !isValidUnit(unit) {
+		log.Fatalf("Not supported unit %q", unit)
+	}
 
 	return v, unit, nil
 }
@@ -84,7 +99,7 @@ func main() {
 				os.Exit(2)
 			}
 
-			m, err := makeMeasurement(v, unit)
+			m := makeMeasurement(v, unit)
 			if err != nil {
 				fmt.Printf("%q", err)
 				os.Exit(2)
@@ -101,7 +116,7 @@ func main() {
 				os.Exit(2)
 			}
 
-			m, err := makeMeasurement(v, unit)
+			m := makeMeasurement(v, unit)
 			if err != nil {
 				fmt.Printf("%q", err)
 				os.Exit(2)
