@@ -86,7 +86,7 @@ func main() {
 
 			m, err := makeMeasurement(v, unit)
 			if err != nil {
-				fmt.Printf("An Input error occurred %q", err)
+				fmt.Printf("%q", err)
 				os.Exit(2)
 			}
 			fmt.Printf("You input this measurement %s", m.String())
@@ -94,12 +94,19 @@ func main() {
 	} else {
 		scan := bufio.NewScanner(os.Stdin)
 		for scan.Scan() {
-			v, err := strconv.ParseFloat(scan.Text(), 64)
+			s := scan.Text()
+			v, unit, err := analyseInput(s)
 			if err != nil {
-				fmt.Printf("An error occurred %q", err)
+				fmt.Printf("An Input error occurred %q", err)
 				os.Exit(2)
 			}
-			fmt.Printf("The Feet is %s;", Feet(v).String())
+
+			m, err := makeMeasurement(v, unit)
+			if err != nil {
+				fmt.Printf("%q", err)
+				os.Exit(2)
+			}
+			fmt.Printf("You input this measurement %s", m.String())
 		}
 	}
 }
