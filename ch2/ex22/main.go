@@ -17,12 +17,6 @@ type Feet float64
 
 type Meter float64
 
-// Distance (aggregate struct) to contain both meter and feet values
-type Distance struct {
-	meter Meter
-	feet  Feet
-}
-
 // Measurement interface to conditionally print corresponding Unit type
 type Measurement interface {
 	String() string
@@ -50,6 +44,11 @@ func isValidUnit(s string) bool {
 	default:
 		return false
 	}
+}
+
+// mToFeet convert Meter to Feet
+func mToFeet(m Meter) Feet {
+	return Feet(float64(m) * 3.28)
 }
 
 // makeMeasurement return the specific measurement
@@ -88,9 +87,16 @@ func analyseInput(s string) (float64, string) {
 	return v, unit
 }
 
-// FeetToMeter converts Feet to Meter
-func FeetToMeter(ft Feet) Meter {
-	return Meter(ft * 0.3)
+// printMeasurement print what was input, and its converted number.
+func printMeasurement(m Measurement) {
+	meter, ok := m.(Meter)
+	if ok {
+		v1 := meter.String()
+		v2 := mToFeet(m.(Meter))
+		fmt.Printf("You input meter: %s", v1)
+		fmt.Println()
+		fmt.Printf("%s equal to %s", v1, v2)
+	}
 }
 
 func main() {
@@ -100,7 +106,7 @@ func main() {
 
 			v, unit := analyseInput(arg)
 			m := makeMeasurement(v, unit)
-			fmt.Printf("You input this measurement %s", m.String())
+			printMeasurement(m)
 		}
 	} else {
 		scan := bufio.NewScanner(os.Stdin)
@@ -108,7 +114,7 @@ func main() {
 			s := scan.Text()
 			v, unit := analyseInput(s)
 			m := makeMeasurement(v, unit)
-			fmt.Printf("You input this measurement %s", m.String())
+			printMeasurement(m)
 		}
 	}
 }
