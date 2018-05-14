@@ -77,13 +77,6 @@ func main() {
 
 	if len(os.Args) > 1 {
 		for _, arg := range os.Args[1:] {
-			// v, err := strconv.ParseFloat(arg, 64)
-			// if err != nil {
-			// 	fmt.Printf("An error occurred %q", err)
-			// 	os.Exit(2)
-			// }
-			// fmt.Printf("The Feet is %s;", Feet(v).String())
-			// fmt.Printf("then converted to Meter is %s", FeetToMeter(Feet(v)).String())
 
 			v, unit, err := analyseInput(arg)
 			if err != nil {
@@ -91,7 +84,11 @@ func main() {
 				os.Exit(2)
 			}
 
-			m, _ := makeMeasurement(v, unit)
+			m, err := makeMeasurement(v, unit)
+			if err != nil {
+				fmt.Printf("An Input error occurred %q", err)
+				os.Exit(2)
+			}
 			fmt.Printf("You input this measurement %s", m.String())
 		}
 	} else {
