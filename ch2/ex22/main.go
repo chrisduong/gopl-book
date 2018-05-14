@@ -88,7 +88,7 @@ func analyseInput(s string) (float64, string) {
 }
 
 // printMeasurement print what was input, and its converted number.
-func printMeasurement(m Measurement) {
+func printMeasurements(m Measurement) {
 	meter, ok := m.(Meter)
 	if ok {
 		v1 := meter.String()
@@ -99,22 +99,24 @@ func printMeasurement(m Measurement) {
 	}
 }
 
+// analyseAndPrint will analyse the input and print measurements
+func analyseAndPrint(s string) {
+	v, unit := analyseInput(s)
+	m := makeMeasurement(v, unit)
+	printMeasurements(m)
+}
+
 func main() {
 
 	if len(os.Args) > 1 {
 		for _, arg := range os.Args[1:] {
-
-			v, unit := analyseInput(arg)
-			m := makeMeasurement(v, unit)
-			printMeasurement(m)
+			analyseAndPrint(arg)
 		}
 	} else {
 		scan := bufio.NewScanner(os.Stdin)
 		for scan.Scan() {
 			s := scan.Text()
-			v, unit := analyseInput(s)
-			m := makeMeasurement(v, unit)
-			printMeasurement(m)
+			analyseAndPrint(s)
 		}
 	}
 }
