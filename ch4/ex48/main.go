@@ -1,6 +1,6 @@
 // Modify charcount to count letters, digits, and so on in their Unicode categories, using functions like unicode.IsLetter.
 
-// Page: 359
+// Page: 324
 //+
 package main
 
