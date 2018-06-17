@@ -1,5 +1,5 @@
 // Modify issues to report the results in age categories, say less than a month old, less than a year old, and more than a year old
-// Page: 405
+// Page: 365
 //+
 package main
 
@@ -9,7 +9,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/chrisduong/gopl.io/ch4/github"
+	"github.com/chrisduong/gopl-book/ch4/github"
 )
 
 //!+
