@@ -28,6 +28,7 @@ func main() {
 	month := now.AddDate(0, -1, 0)
 	year := now.AddDate(-1, 0, 0)
 	for _, item := range result.Items {
+		// Switch statement will filter the item along its creation time
 		switch {
 		case item.CreatedAt.After(day):
 			pastDay = append(pastDay, item)
