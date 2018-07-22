@@ -8,10 +8,23 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	github "github.com/chrisduong/gopl-book/ch4/github"
 )
+
+// search return issues based on search term
+func search(query []string) {
+	result, err := github.SearchIssues(query)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, issue := range result.Items {
+		format := "#%-5d %9.9s %.55s\n"
+		fmt.Printf(format, issue.Number, issue.User.Login, issue.Title)
+	}
+}
 
 // // CreateIssue create a new issue
 // func CreateIssue(title string, body string) {
@@ -42,7 +55,7 @@ func main() {
 	args := os.Args[2:]
 
 	if cmd == "search" {
-		github.SearchIssues(args)
+		search(args)
 		os.Exit(0)
 	}
 }
