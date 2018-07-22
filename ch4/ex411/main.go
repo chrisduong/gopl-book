@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"net/url"
 
-	github "github.com/chrisduong/gopl-book/ch4/github"
 )
 
 // search return issues based on search term
@@ -26,7 +26,12 @@ func search(query []string) {
 	}
 }
 
-// // CreateIssue create a new issue
+// ReadIssue read an issue
+func ReadIssue(owner string, repo string, number int) (*Issue, error) {
+	q := url.QueryEscape(owner + " ")
+}
+
+// CreateIssue create a new issue
 // func CreateIssue(title string, body string) {
 
 // }
@@ -57,5 +62,12 @@ func main() {
 	if cmd == "search" {
 		search(args)
 		os.Exit(0)
+	}
+
+	if cmd = "read" {
+		owner := args[1]
+		repo := args[2]
+		issue_number := args[3]
+		ReadIssue(owner, repo, issue_number)
 	}
 }
