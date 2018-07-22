@@ -10,13 +10,11 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"net/url"
-
 )
 
 // search return issues based on search term
 func search(query []string) {
-	result, err := github.SearchIssues(query)
+	result, err := SearchIssues(query)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,8 +25,9 @@ func search(query []string) {
 }
 
 // ReadIssue read an issue
-func ReadIssue(owner string, repo string, number int) (*Issue, error) {
-	q := url.QueryEscape(owner + " ")
+func ReadIssue(owner string, repo string, number string) (*Issue, error) {
+	// q := url.QueryEscape(strings.Join([]string{GithubAPIUrl, "repos"}, "/"))
+	return nil, nil
 }
 
 // CreateIssue create a new issue
@@ -53,6 +52,7 @@ func usageDie() {
 
 func main() {
 	if len(os.Args) < 3 {
+		fmt.Println(len(os.Args))
 		usageDie()
 	}
 
@@ -64,10 +64,10 @@ func main() {
 		os.Exit(0)
 	}
 
-	if cmd = "read" {
+	if cmd == "read" {
 		owner := args[1]
 		repo := args[2]
-		issue_number := args[3]
-		ReadIssue(owner, repo, issue_number)
+		issueNumber := args[3]
+		ReadIssue(owner, repo, issueNumber)
 	}
 }
