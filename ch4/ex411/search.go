@@ -47,4 +47,34 @@ func SearchIssues(terms []string) (*IssuesSearchResult, error) {
 	return &result, nil
 }
 
+// ReadIssue read an issue
+// GET /repos/:owner/:repo/issues/:number
+// `:owner` mean you have to replace it with string variable
+func ReadIssue(owner string, repo string, number string) (*Issue, error) {
+	q := strings.Join([]string{
+		APIURL, "repos", owner, repo, "issues", number,
+	}, "/")
+
+	req, err := http.NewRequest("GET", q, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set(
+		"Accept", "application/vnd.github.v3.text-match+json")
+	resp, err := http.DefaultClient.Do(req)
+
+	if resp.StatusCode != http.StatusOK {
+		resp.Body.Close()
+		return nil, err
+	}
+
+	var result Issue
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		resp.Body.Close()
+		return nil, err
+	}
+	return &result, nil
+}
+
 //!-

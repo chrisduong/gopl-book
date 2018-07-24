@@ -9,10 +9,7 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
-	"net/url"
 	"os"
-	"strings"
 )
 
 // search return issues based on search term
@@ -25,13 +22,6 @@ func search(query []string) {
 		format := "#%-5d %9.9s %.55s\n"
 		fmt.Printf(format, issue.Number, issue.User.Login, issue.Title)
 	}
-}
-
-// ReadIssue read an issue
-func ReadIssue(owner string, repo string, number string) (*Issue, error) {
-	q := url.QueryEscape(strings.Join([]string{GithubAPIUrl, "repos"}, "/"))
-	req, err := http.NewRequest("GET", APIURL, nil)
-	return nil, nil
 }
 
 // CreateIssue create a new issue
@@ -69,9 +59,9 @@ func main() {
 	}
 
 	if cmd == "read" {
-		owner := args[1]
-		repo := args[2]
-		issueNumber := args[3]
+		owner := args[0]
+		repo := args[1]
+		issueNumber := args[2]
 		ReadIssue(owner, repo, issueNumber)
 	}
 }

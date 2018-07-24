@@ -81,3 +81,6 @@ $ ./issues repo:golang/go is:open json decoder
 #4237  gjemiller encoding/base64: URLEncoding padding is optional
 //!-textoutput
 */
+
+//** Read
+// go run *.go read golang/go/11046
