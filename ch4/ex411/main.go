@@ -9,7 +9,10 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
+	"net/url"
 	"os"
+	"strings"
 )
 
 // search return issues based on search term
@@ -26,7 +29,8 @@ func search(query []string) {
 
 // ReadIssue read an issue
 func ReadIssue(owner string, repo string, number string) (*Issue, error) {
-	// q := url.QueryEscape(strings.Join([]string{GithubAPIUrl, "repos"}, "/"))
+	q := url.QueryEscape(strings.Join([]string{GithubAPIUrl, "repos"}, "/"))
+	req, err := http.NewRequest("GET", APIURL, nil)
 	return nil, nil
 }
 

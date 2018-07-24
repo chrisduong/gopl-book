@@ -11,6 +11,7 @@ package main
 import "time"
 
 const IssuesURL = "https://api.github.com/search/issues"
+const APIURL = "https://api.github.com"
 
 // IssuesSearchResult is an array of []*Issue
 type IssuesSearchResult struct {
