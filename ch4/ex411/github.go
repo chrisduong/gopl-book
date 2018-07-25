@@ -13,6 +13,8 @@ import "time"
 const IssuesURL = "https://api.github.com/search/issues"
 const APIURL = "https://api.github.com"
 
+const FORMAT = "#%-5d %9.9s %.55s\n"
+
 // IssuesSearchResult is an array of []*Issue
 type IssuesSearchResult struct {
 	TotalCount int `json:"total_count"`

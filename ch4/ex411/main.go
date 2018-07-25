@@ -19,8 +19,7 @@ func search(query []string) {
 		log.Fatal(err)
 	}
 	for _, issue := range result.Items {
-		format := "#%-5d %9.9s %.55s\n"
-		fmt.Printf(format, issue.Number, issue.User.Login, issue.Title)
+		fmt.Printf(FORMAT, issue.Number, issue.User.Login, issue.Title)
 	}
 }
 
@@ -30,8 +29,8 @@ func read(owner string, repo string, number string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	format := "#%-5d %9.9s %.55s"
-	fmt.Printf(format, result.Number, result.User.Login, result.Title)
+
+	fmt.Printf(FORMAT, result.Number, result.User.Login, result.Title)
 }
 
 // CreateIssue create a new issue
