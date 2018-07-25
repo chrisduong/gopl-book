@@ -24,14 +24,19 @@ func search(query []string) {
 	}
 }
 
+// read return the issue based on its number
+func read(owner string, repo string, number string) {
+	result, err := ReadIssue(owner, repo, number)
+	if err != nil {
+		log.Fatal(err)
+	}
+	format := "#%-5d %9.9s %.55s"
+	fmt.Printf(format, result.Number, result.User.Login, result.Title)
+}
+
 // CreateIssue create a new issue
 // func CreateIssue(title string, body string) {
-
-// }
-
-// // GetIssue get an issue by its number
-// func GetIssue(number int) {
-
+/**/
 // }
 
 var usage = `usage:
@@ -46,7 +51,7 @@ func usageDie() {
 
 func main() {
 	if len(os.Args) < 3 {
-		fmt.Println(len(os.Args))
+		fmt.Println(len(os.Args)) /**/
 		usageDie()
 	}
 
@@ -62,6 +67,6 @@ func main() {
 		owner := args[0]
 		repo := args[1]
 		issueNumber := args[2]
-		ReadIssue(owner, repo, issueNumber)
+		read(owner, repo, issueNumber)
 	}
 }
