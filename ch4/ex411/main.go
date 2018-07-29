@@ -36,13 +36,16 @@ func read(owner string, repo string, number string) {
 // create a new issue with a title, open text editor to input their own content
 // TODO: find the way to call an EDITOR write a temp file then read. SEE: https://stackoverflow.com/a/6309753/1177314, https://gobyexample.com/spawning-processes
 func create(owner, repo, title string) {
-	issue := Issue{}
+	issue, err := CreateIssue(owner, repo, title)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Printf(FORMAT, issue.Number, issue.User.Login, issue.Title)
 }
 
 var usage = `usage:
 search QUERY
-create OWNER REPO
+create OWNER REPO TITLE
 [read|update|delete] OWNER REPO ISSUE_NUMBER
 `
 
@@ -72,9 +75,11 @@ func main() {
 		read(owner, repo, issueNumber)
 	}
 
+	// create chrisduong gopl-book first issue
 	if cmd == "create" {
 		owner := args[0]
 		repo := args[1]
-		create(owner, repo)
+		title := args[2]
+		create(owner, repo, title)
 	}
 }

@@ -13,7 +13,8 @@ import "time"
 const IssuesURL = "https://api.github.com/search/issues"
 const APIURL = "https://api.github.com"
 
-const FORMAT = "#%-5d %9.9s %.55s\n"
+// FORMAT for nicely print Issue Result
+const FORMAT = "#%-5d %10.10s %.55s\n"
 
 // IssuesSearchResult is an array of []*Issue
 type IssuesSearchResult struct {
@@ -32,6 +33,13 @@ type Issue struct {
 	Body      string    // in Markdown format
 }
 
+// IssueReq struct
+type IssueReq struct {
+	Title string `json:"title"`
+	Body  string `json:"body"`
+}
+
+// User struct
 type User struct {
 	Login   string
 	HTMLURL string `json:"html_url"`
