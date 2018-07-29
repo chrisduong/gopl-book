@@ -5,8 +5,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
+	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -75,6 +79,32 @@ func ReadIssue(owner string, repo string, number string) (*Issue, error) {
 		return nil, err
 	}
 	return &result, nil
+}
+
+// CreateIssue create an issue
+// POST /repos/:owner/:repo/issues
+func CreateIssue(owner, repo, title string) (*Issue, error) {
+	// url := strings.Join([]string{
+	// 	APIURL, "repos", owner, repo, "issues",
+	// }, "/")
+	EDITOR := os.Getenv("EDITOR")
+	if EDITOR == "" {
+		fmt.Println("You haven't set the environment EDITOR")
+		os.Exit(2)
+	}
+	tmpfile, err := ioutil.TempFile("", "githubIssue")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer os.Remove(tmpfile.Name()) // Clean up
+	editorCmd := exec.Command(EDITOR, tmpfile.Name())
+	err = editorCmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+	body, err := ioutil.ReadFile(tmpfile.Name())
+
 }
 
 //!-

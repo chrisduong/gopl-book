@@ -33,14 +33,17 @@ func read(owner string, repo string, number string) {
 	fmt.Printf(FORMAT, result.Number, result.User.Login, result.Title)
 }
 
-// CreateIssue create a new issue
-// func CreateIssue(title string, body string) {
-/**/
-// }
+// create a new issue with a title, open text editor to input their own content
+// TODO: find the way to call an EDITOR write a temp file then read. SEE: https://stackoverflow.com/a/6309753/1177314, https://gobyexample.com/spawning-processes
+func create(owner, repo, title string) {
+	issue := Issue{}
+	fmt.Printf(FORMAT, issue.Number, issue.User.Login, issue.Title)
+}
 
 var usage = `usage:
 search QUERY
-[read|edit|close|open] OWNER REPO ISSUE_NUMBER
+create OWNER REPO
+[read|update|delete] OWNER REPO ISSUE_NUMBER
 `
 
 func usageDie() {
@@ -67,5 +70,11 @@ func main() {
 		repo := args[1]
 		issueNumber := args[2]
 		read(owner, repo, issueNumber)
+	}
+
+	if cmd == "create" {
+		owner := args[0]
+		repo := args[1]
+		create(owner, repo)
 	}
 }
