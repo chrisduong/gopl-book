@@ -2,6 +2,12 @@
 
 package main
 
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+)
+
 // Comic describe Comic JSON object
 type Comic struct {
 	Num              int
@@ -10,6 +16,30 @@ type Comic struct {
 	Transcript       string
 	Alt              string
 	Img              string // url
+}
+
+func getComic(n int) (Comic, error) {
+	var commic Comic
+	url := fmt.Sprintf("https://xkcd.com/%d/info.0.json", n)
+	fmt.Println(url)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		return commic, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return commic, fmt.Errorf("Cannot get commic %d: %s", n, resp.Status)
+	}
+
+	defer resp.Body.Close()
+
+	if err := json.NewDecoder(resp.Body).Decode(&commic); err != nil {
+		return commic, err
+	}
+
+	return commic, nil
+
 }
 
 func main() {
