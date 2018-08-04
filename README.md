@@ -2,6 +2,8 @@
 
 **Original sourcecode:** [adonovan/gopl.io](https://github.com/adonovan/gopl.io)
 
+**Credit of:** [https://github.com/torbiak/gopl](https://github.com/torbiak/gopl)
+
 ## Excercises
 
 ### Chapter 1
