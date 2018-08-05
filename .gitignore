@@ -1,5 +1,5 @@
 *.test
-.vscode
+.vscode/
 debug
 
 # Ignore file without extension
