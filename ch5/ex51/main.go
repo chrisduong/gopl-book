@@ -44,3 +44,22 @@ func visit(links []string, n *html.Node) []string {
 
 	return links
 }
+
+// ! ./fetch https://golang.org | ./ex51
+// /
+// /
+// #
+// /doc/
+// /pkg/
+// /project/
+// /help/
+// /blog/
+// http://play.golang.org/
+// #
+// #
+// //tour.golang.org/
+// /dl/
+// //blog.golang.org/
+// https://developers.google.com/site-policies#restrictions
+// /LICENSE
+// /doc/tos.html
