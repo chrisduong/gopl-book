@@ -1,3 +1,8 @@
 *.test
 .vscode
 debug
+
+# Ignore file without extension
+*
+!/**/
+!*.*
