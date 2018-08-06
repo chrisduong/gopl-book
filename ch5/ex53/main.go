@@ -32,7 +32,9 @@ func getText(texts []string, n *html.Node) []string {
 		texts = append(texts, n.Data)
 	}
 
-	// TODO: this code will miss the child/sibling of Script/Style Node
+	// XXX: if you ommit sth on the traverse way, you should use the For loop to traverse, to make sure you don't miss the sibling node as the early return.
+
+	// XXX: this code will miss the child/sibling of Script/Style Node
 	// Traverse nodes
 	// if n.FirstChild != nil {
 	// 	texts = getText(texts, n.FirstChild)
