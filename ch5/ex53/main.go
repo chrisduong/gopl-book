@@ -44,10 +44,9 @@ func getText(texts []string, n *html.Node) []string {
 	// 	texts = getText(texts, n.NextSibling)
 	// }
 
-	// XXX: if your FirstChild happen to be the Script Node, you can continue to go to its Sibling node
-	// for c := n.FirstChild; c != nil; c = c.NextSibling {
-	// 	texts = getText(texts, c)
-	// }
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		texts = getText(texts, c)
+	}
 
 	return texts
 }

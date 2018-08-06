@@ -1,0 +1,13 @@
+1. call outline(nil, doc)
+stack = append(nil, html) // root
+
+2. call outline([html],doc.FirstChild)
+stack = append([html], head) //Child
+
+3. call outline([html, head], meta child )
+stack = append (html+head, meta ) // Child
+
+THEN First Child is nil
+Go back to Stack number 3, go to next Sibling [meta]
+
+4.
