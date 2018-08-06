@@ -5,7 +5,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"golang.org/x/net/html"
 )
@@ -26,10 +25,10 @@ func main() {
 func getText(texts []string, n *html.Node) []string {
 	if n.Type == html.ElementNode {
 		if n.Data == "script" || n.Data == "style" {
-			// Do nothing
+			return texts
 		}
 	}
-	if n.Type == html.TextNode && !strings.Contains(n.Data, "\n") {
+	if n.Type == html.TextNode {
 		texts = append(texts, n.Data)
 	}
 
