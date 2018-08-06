@@ -20,6 +20,8 @@ func main() {
 
 // visit appends to links each link found in n and returns the result.
 func pPrint(n *html.Node) {
+	// TODO: why this won't skip Child and Sibling of Script Node.
+	// Like footer Node. which is the Sibling.
 	if n.Type == html.ElementNode {
 		if n.Data == "script" || n.Data == "style" {
 			return

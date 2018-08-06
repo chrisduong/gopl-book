@@ -32,13 +32,18 @@ func getText(texts []string, n *html.Node) []string {
 		texts = append(texts, n.Data)
 	}
 
+	// TODO: this code will miss the child/sibling of Script/Style Node
 	// Traverse nodes
-	if n.FirstChild != nil {
-		texts = getText(texts, n.FirstChild)
-	}
+	// if n.FirstChild != nil {
+	// 	texts = getText(texts, n.FirstChild)
+	// }
 
-	if n.NextSibling != nil {
-		texts = getText(texts, n.NextSibling)
+	// if n.NextSibling != nil {
+	// 	texts = getText(texts, n.NextSibling)
+	// }
+
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		texts = getText(texts, c)
 	}
 
 	return texts
