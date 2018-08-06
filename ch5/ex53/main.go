@@ -34,7 +34,7 @@ func getText(texts []string, n *html.Node) []string {
 
 	// XXX: if you ommit sth on the traverse way, you should use the For loop to traverse, to make sure you don't miss the sibling node as the early return.
 
-	// XXX: this code will miss the child/sibling of Script/Style Node
+	// XXX: this code will miss the sibling of Script/Style Node
 	// Traverse nodes
 	// if n.FirstChild != nil {
 	// 	texts = getText(texts, n.FirstChild)
@@ -44,9 +44,10 @@ func getText(texts []string, n *html.Node) []string {
 	// 	texts = getText(texts, n.NextSibling)
 	// }
 
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		texts = getText(texts, c)
-	}
+	// XXX: if your FirstChild happen to be the Script Node, you can continue to go to its Sibling node
+	// for c := n.FirstChild; c != nil; c = c.NextSibling {
+	// 	texts = getText(texts, c)
+	// }
 
 	return texts
 }
