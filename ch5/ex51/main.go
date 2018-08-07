@@ -34,6 +34,7 @@ func visit(links []string, n *html.Node) []string {
 	}
 
 	// Check if FirstChild has any links then go to its' sibling
+	// NOTE: https://www.w3.org/TR/dom/#nodes
 	if n.FirstChild != nil {
 		links = visit(links, n.FirstChild)
 	}

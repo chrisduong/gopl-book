@@ -8,6 +8,8 @@ stack = append([html], head) //Child
 stack = append (html+head, meta ) // Child
 
 THEN First Child is nil
-Go back to Stack number 3, go to next Sibling [meta]
+Go back to Stack number 3, go to next Sibling [meta] until the node is nil
+
+THEN go back to check Child Node recusively
 
 4.
