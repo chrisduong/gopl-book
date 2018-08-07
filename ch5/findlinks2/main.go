@@ -1,7 +1,7 @@
 // Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
 // License: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
-// See page 125.
+// See page 397
 
 // Findlinks2 does an HTTP GET on each URL, parses the
 // result as HTML, and prints the links within it.
