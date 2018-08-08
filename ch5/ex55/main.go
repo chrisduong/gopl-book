@@ -45,9 +45,10 @@ func CountWordsAndImages(url string) (words, images int, err error) {
 func countWordsAndImages(n *html.Node) (words, images int) {
 	// TODO: the words supposed to be accummulated during recursion, but it won't
 	if n.Type == html.TextNode {
-		if strings.TrimSpace(n.Data) != "" {
-			words += wordCount(n.Data)
-		}
+		// if strings.TrimSpace(n.Data) != "" {
+		// 	words += wordCount(n.Data)
+		// }
+		words += wordCount(n.Data)
 	}
 
 	if n.Type == html.ElementNode {
