@@ -50,7 +50,7 @@ func main() {
 	nodes := TraverseNode(doc, matcher)
 
 	for i, node := range nodes {
-		fmt.Printf("Node Text: %s, Node Atom: %v \n", node.Data, node.)
+		// fmt.Printf("Node Text: %s, Node Atom: %v \n", node.Data, node.DataAtom)
 
 		fmt.Println(i, renderNode(node))
 	}
