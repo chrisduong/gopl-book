@@ -15,7 +15,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "findlinks: %v\n", err)
 	}
 
-	elements := make(map[string]int)
+	elements := make(map[string]int, 0)
 	for k, v := range count(elements, doc) {
 		fmt.Printf("Element %s: %d \n", k, v)
 	}
