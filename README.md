@@ -13,3 +13,8 @@
 ### Chapter 2
 
 **Ex. 2.3:** `popcount2` package.
+
+## References
+
+- https://github.com/torbiak/gopl.git
+- https://github.com/nasciiboy/TGPL-Exercises
