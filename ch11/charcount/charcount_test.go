@@ -14,7 +14,8 @@ func TestCharCount(t *testing.T) {
 		input string
 		want  map[rune]int
 	}{
-		{"mama",
+		{
+			"mama",
 			map[rune]int{
 				'm': 2,
 				'a': 2,
