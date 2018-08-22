@@ -41,6 +41,8 @@ func CountWordsAndImages(url string) (words, images int, err error) {
 	return
 }
 
+// countWordsAndImages traverse the HTML node and count words + images
+// in TextNode and ElementNode
 func countWordsAndImages(n *html.Node) (words, images int) {
 	if n.Type == html.TextNode {
 		// if strings.TrimSpace(n.Data) != "" {
@@ -65,9 +67,11 @@ func countWordsAndImages(n *html.Node) (words, images int) {
 		images += i
 	}
 
+	// Bare return for `words, images`
 	return
 }
 
+// wordCount return number of word in a string.
 func wordCount(s string) int {
 	var count int
 	input := bufio.NewScanner(strings.NewReader(s))

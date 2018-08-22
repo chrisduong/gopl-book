@@ -34,3 +34,23 @@ func outline(stack []string, n *html.Node) {
 }
 
 //!-
+
+// ## Outputs
+// cat gopl.html| go run ch5/outline/main.go
+
+// ```console
+// [html]
+// [html head]
+// [html head meta]
+// [html head title]
+// [html head script]
+// [html head link]
+// [html head style]
+// [html body]
+// [html body table]
+// [html body table tbody]
+// [html body table tbody tr]
+// [html body table tbody tr td]
+// ## NOTEs
+
+// - You don't record the end node. For e.g. `</head>`
