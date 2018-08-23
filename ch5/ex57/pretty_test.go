@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"strings"
 	"testing"
@@ -11,7 +12,9 @@ import (
 var input = `
 <html>
 <body>
-	<p class="something" id="short"><span class="special">hi</span></p><br/>
+	<p class="something" id="short"><span class="special">hi</span></p>
+	<br>
+	<!-- this is the comment -->
 </body>
 </html>
 `
@@ -22,11 +25,11 @@ func TestPrettyOutputCanBeParsed(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	// pp := NewPrettyPrinter()
+
 	// You need to initialize a pointer because the method `Write` is on the pointer of `Buffer` type
 	b := &bytes.Buffer{}
-	err = Pretty(b, doc)
-	// Check if the Pretty method failed
+	var pp PrettyPrinter
+	err = pp.Pretty(b, doc)
 	if err != nil {
 		t.Log(err)
 		t.Fail()
@@ -44,20 +47,19 @@ func TestPrettyShortForm(t *testing.T) {
 	doc, err := html.Parse(strings.NewReader(input))
 
 	b := &bytes.Buffer{}
-	err = Pretty(b, doc)
-	// Check if the Pretty method failed
+	var pp PrettyPrinter
+	err = pp.Pretty(b, doc)
 	if err != nil {
 		t.Log(err)
-		t.Log("Fail here")
 		t.Fail()
 	}
-	t.Log(b.String())
-	// scanner := bufio.NewScanner(b)
-	// for scanner.Scan() {
-	// 	if scanner.Text() == "</br>" {
-	// 		return
-	// 	}
-	// }
+
+	scanner := bufio.NewScanner(b)
+	for scanner.Scan() {
+		if strings.Contains(scanner.Text(), "<br/>") {
+			return
+		}
+	}
 
 	t.Fail()
 }

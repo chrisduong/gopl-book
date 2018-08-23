@@ -61,8 +61,10 @@ func forEachNode(n *html.Node, pre, post func(n *html.Node)) {
 //!-forEachNode
 
 //!+startend
+// Initialize the depth to indent
 var depth int
 
+// startElement will print with 2 spaces indented
 func startElement(n *html.Node) {
 	if n.Type == html.ElementNode {
 		fmt.Printf("%*s<%s>\n", depth*2, "", n.Data)
@@ -70,6 +72,7 @@ func startElement(n *html.Node) {
 	}
 }
 
+// endElement print Node Tag with leading `/`
 func endElement(n *html.Node) {
 	if n.Type == html.ElementNode {
 		depth--
