@@ -32,6 +32,7 @@ func main() {
 // comma inserts commas in a non-negative decimal integer string.
 func comma(s string) string {
 	b := &bytes.Buffer{}
+	// The remainder will be the first comma
 	pre := len(s) % 3
 	// Write the first group of up to 3 digits.
 	if pre == 0 {

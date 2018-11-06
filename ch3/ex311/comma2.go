@@ -16,7 +16,9 @@ func main() {
 
 func comma(s string) string {
 	b := bytes.Buffer{}
+	// Need to find the mantissa (significant) of the number
 	mantissaStart := 0
+	// If the first char is sign, write it to buffer
 	if s[0] == '+' || s[0] == '-' {
 		b.WriteByte(s[0])
 		mantissaStart = 1
@@ -25,6 +27,7 @@ func comma(s string) string {
 	if mantissaEnd == -1 {
 		mantissaEnd = len(s)
 	}
+	// repeat the flow of comma.go with alteration but same effect
 	mantissa := s[mantissaStart:mantissaEnd]
 	pre := len(mantissa) % 3
 	if pre > 0 {
