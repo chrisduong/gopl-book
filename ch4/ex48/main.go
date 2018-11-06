@@ -2,6 +2,15 @@
 
 // Page: 359
 //+
+// ❯ go run main.go > Ctrl+D
+// abc12klrune categories  count
+// Letter          5
+
+// len     count
+// 1       7
+// 2       0
+// 3       0
+// 4       0
 package main
 
 import (
@@ -55,6 +64,8 @@ func main() {
 			counts[CharIsSpace]++
 		case unicode.IsSymbol(r):
 			counts[CharIsSymbol]++
+		case unicode.IsLetter(r):
+			counts[CharIsLetter]++
 		}
 		utflen[n]++
 	}
@@ -66,6 +77,8 @@ func main() {
 				catname = "Space"
 			case CharIsSymbol:
 				catname = "Symbol"
+			case CharIsLetter:
+				catname = "Letter"
 			}
 			fmt.Printf("%s\t\t%d\n", catname, n)
 		}
