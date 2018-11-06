@@ -2,6 +2,7 @@
 // License: https://creativecommons.org/licenses/by-nc-sa/4.0/
 // Exercise 3.10
 // See page 240.
+// “Write a non-recursive version of comma, using bytes.Buffer instead of string concatenation”
 
 // Comma prints its argument numbers with a comma at each power of 1000.
 //
@@ -24,27 +25,25 @@ import (
 
 func main() {
 	for i := 1; i < len(os.Args); i++ {
-		fmt.Printf("  %s\n", comma(os.Args[i]))
+		fmt.Printf("%s\n", comma(os.Args[i]))
 	}
 }
 
-//!+ No recurisve solution
 // comma inserts commas in a non-negative decimal integer string.
 func comma(s string) string {
-	var buf bytes.Buffer
-	n := len(s)
-	r := n % 3
-	if n/3 == 0 {
-		buf.WriteString(s)
-		return buf.String()
+	b := &bytes.Buffer{}
+	pre := len(s) % 3
+	// Write the first group of up to 3 digits.
+	if pre == 0 {
+		pre = 3
 	}
-	buf.WriteString(s[:r])
-	for i := 0; i < n/3; i++ {
-		buf.WriteByte(',')
-		buf.WriteString(s[r : r+3])
-		r += 3
+	b.WriteString(s[:pre])
+	// Deal with the rest.
+	for i := pre; i < len(s); i += 3 {
+		b.WriteByte(',')
+		b.WriteString(s[i : i+3])
 	}
-	return buf.String()
+	return b.String()
 }
 
 //!-
