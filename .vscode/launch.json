@@ -1,0 +1,17 @@
+// https://github.com/Microsoft/vscode-go/wiki/Debugging-Go-code-using-VS-Code#set-up-configurations-in-launchjson
+// NOTE: Debug need arguments
+{
+  "version": "0.2.0",
+  "configurations": [
+
+    {
+      "name": "Launch",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${fileDirname}",
+      "env": {},
+      "args": ["1", "12", "1234567890"]
+    }
+  ]
+}
