@@ -69,6 +69,8 @@ func main() {
 		}
 		utflen[n]++
 	}
+
+	// Print the categories
 	fmt.Printf("rune categories\tcount\n")
 	for i, n := range counts {
 		if n != 0 {
@@ -83,6 +85,8 @@ func main() {
 			fmt.Printf("%s\t\t%d\n", catname, n)
 		}
 	}
+
+	// Coun the Category of UTFlen
 	fmt.Print("\nlen\tcount\n")
 	for i, n := range utflen {
 		if i > 0 {
