@@ -2,9 +2,10 @@
 
 // Page: 359
 //+
-// ❯ go run main.go > Ctrl+D
-// abc12klrune categories  count
-// Letter          5
+// ❯ echo "aannnc" | go run main.go
+// rune categories count
+// Space           1
+// Letter          6
 
 // len     count
 // 1       7
