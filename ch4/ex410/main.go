@@ -9,7 +9,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/chrisduong/gopl.io/ch4/github"
+	"github.com/chrisduong/gopl-book/ch4/github"
 )
 
 //!+
