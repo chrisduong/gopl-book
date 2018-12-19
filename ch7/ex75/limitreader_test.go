@@ -10,7 +10,6 @@ func TestLimitReader(t *testing.T) {
 	s := "hi there"
 	b := make([]byte, 1024)
 	r := LimitReader(strings.NewReader(s), 4)
-	b = b[:4]
 	_, _ = r.Read(b)
 	// need to read again to return EOF
 	n, err := r.Read(b)
