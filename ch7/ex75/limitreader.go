@@ -4,7 +4,6 @@
 package limitreader
 
 import (
-	"fmt"
 	"io"
 )
 
@@ -26,7 +25,6 @@ func (l *IOLimitReader) Read(p []byte) (n int, err error) {
 	}
 	n, err = l.R.Read(p)
 	l.N -= int64(n)
-	fmt.Println(p)
 	return
 }
 
