@@ -66,6 +66,11 @@ func (s *IntSet) Len() int {
 	return length
 }
 
+// Remove removes non-negative value x
+func (s *IntSet) Remove(x int) {
+
+}
+
 //!+string
 
 // String returns the set as a string of the form "{1 2 3}".
