@@ -27,3 +27,20 @@ func TestRemoveInset(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestCopyInset(t *testing.T) {
+	var x IntSet
+	x.Add(1)
+	x.Add(144)
+	x.Add(9)
+
+	y := x.Copy()
+
+	if !y.Has(9) {
+		t.Log(x.String())
+		t.Log(y.String())
+		t.Logf("%T: &x=%p", &x, &x)
+		t.Log(&y)
+		t.Fail()
+	}
+}

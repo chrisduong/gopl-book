@@ -72,6 +72,13 @@ func (s *IntSet) Remove(x int) {
 	s.words[word] = s.words[word] &^ (1 << bit)
 }
 
+// Copy return a copy of the set
+func (s *IntSet) Copy() *IntSet {
+	var t IntSet
+	t = *s
+	return &t
+}
+
 //!+string
 
 // String returns the set as a string of the form "{1 2 3}".
