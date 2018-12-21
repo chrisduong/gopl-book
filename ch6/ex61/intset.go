@@ -79,6 +79,11 @@ func (s *IntSet) Copy() *IntSet {
 	return &t
 }
 
+// Clear remove all elements from the set
+func (s *IntSet) Clear() {
+	s.words = nil
+}
+
 //!+string
 
 // String returns the set as a string of the form "{1 2 3}".

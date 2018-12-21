@@ -44,3 +44,17 @@ func TestCopyInset(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestClearInset(t *testing.T) {
+	var x IntSet
+	x.Add(1)
+	x.Add(144)
+	x.Add(9)
+
+	x.Clear()
+
+	if x.Len() != 0 {
+		t.Log(x.String())
+		t.Fail()
+	}
+}
