@@ -78,8 +78,10 @@ func (s *IntSet) Clear() {
 }
 
 // AddAll add all elements to the set
-func (s *IntSet) AddAll(...int) {
-
+func (s *IntSet) AddAll(vals ...int) {
+	for _, v := range vals {
+		s.Add(v)
+	}
 }
 
 //!+string
