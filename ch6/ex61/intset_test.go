@@ -36,7 +36,7 @@ func TestCopyInset(t *testing.T) {
 
 	y := x.Copy()
 
-	if !y.Has(9) {
+	if !y.Has(9) || len(y.words) != len(x.words) {
 		t.Log(x.String())
 		t.Log(y.String())
 		t.Logf("%T: &x=%p", &x, &x)
