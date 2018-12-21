@@ -10,8 +10,8 @@
       "request": "launch",
       "mode": "auto",
       "program": "${fileDirname}",
-      "env": {},
-      "args": ["1", "12", "1234567890"]
+      "env": {}
+      // "args": ["1", "12", "1234567890"]
     }
   ]
 }
