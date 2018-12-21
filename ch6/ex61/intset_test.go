@@ -20,9 +20,9 @@ func TestRemoveInset(t *testing.T) {
 	x.Add(144)
 	x.Add(9)
 
-	x.Remove(1)
+	x.Remove(9)
 
-	if x.Has(1) || x.Len() != 2 {
+	if x.Has(9) || x.Len() != 2 {
 		t.Log(x.String())
 		t.Fail()
 	}

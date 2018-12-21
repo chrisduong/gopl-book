@@ -68,7 +68,8 @@ func (s *IntSet) Len() int {
 
 // Remove removes non-negative value x
 func (s *IntSet) Remove(x int) {
-
+	word, bit := x/64, uint(x%64)
+	s.words[word] = s.words[word] &^ (1 << bit)
 }
 
 //!+string
