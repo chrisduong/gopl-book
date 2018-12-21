@@ -52,7 +52,18 @@ func (s *IntSet) UnionWith(t *IntSet) {
 
 // Len return the length of the IntSet
 func (s *IntSet) Len() uint64 {
-	return 2
+	var length uint64
+	// Traverse to find the Set bits
+	for _, word := range s.words {
+		// for each set bit, count if it is on.
+		for j := 0; j < 64; j++ {
+			if word&(1<<uint(j)) != 0 {
+				length++
+			}
+		}
+	}
+
+	return length
 }
 
 //!+string
