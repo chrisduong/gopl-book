@@ -7,18 +7,20 @@ import "testing"
 func TestIntersectWith(t *testing.T) {
 	var x IntSet
 	x.Add(1)
-	x.Add(144)
+	x.Add(14)
 	x.Add(9)
 
 	var y IntSet
-	y.Add(2)
-	y.Add(122)
+	y.Add(1)
+	y.Add(100)
 	y.Add(9)
+	y.Add(15)
 
 	x.IntersectWith(&y)
 
 	if x.String() != "{1 9}" {
-		t.Log(x.String())
+		t.Log(x)
+		t.Log(y)
 		t.Fail()
 	}
 

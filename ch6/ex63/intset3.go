@@ -17,11 +17,18 @@ type IntSet struct {
 
 func (s *IntSet) IntersectWith(t *IntSet) {
 	for i, tword := range t.words {
-		if i > len(s.words) {
+		if i >= len(s.words) {
 			return
 		}
 		s.words[i] &= tword
 	}
+}
+
+// Copy return a copy of the set
+func (s *IntSet) Copy() *IntSet {
+	var t IntSet
+	t = *s
+	return &t
 }
 
 // UnionWith sets s to the union of s and t.
