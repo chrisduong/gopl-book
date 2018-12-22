@@ -15,12 +15,17 @@ type IntSet struct {
 	words []uint64
 }
 
+func (s *IntSet) DifferentWith(t *IntSet) {
+
+}
+
 func (s *IntSet) IntersectWith(t *IntSet) {
-	for i, tword := range t.words {
-		if i >= len(s.words) {
-			return
+	for i := range s.words {
+		if i < len(t.words) {
+			s.words[i] &= t.words[i]
+		} else {
+			s.words[i] = 0
 		}
-		s.words[i] &= tword
 	}
 }
 

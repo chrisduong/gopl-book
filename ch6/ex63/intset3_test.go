@@ -4,7 +4,7 @@ package inset3
 
 import "testing"
 
-func TestIntersectWith(t *testing.T) {
+func TestDifferentWith(t *testing.T) {
 	var x IntSet
 	x.Add(1)
 	x.Add(14)
@@ -16,11 +16,32 @@ func TestIntersectWith(t *testing.T) {
 	y.Add(9)
 	y.Add(15)
 
+	x.DifferentWith(&y)
+
+	if x.String() != "{14}" {
+		t.Log(x.String())
+		t.Fail()
+	}
+
+}
+
+func TestIntersectWith(t *testing.T) {
+	var x IntSet
+	x.Add(1)
+	x.Add(14)
+	x.Add(9)
+
+	var y IntSet
+	y.Add(1)
+	y.Add(100)
+	// y.Add(9)
+	// y.Add(15)
+
 	x.IntersectWith(&y)
 
 	if x.String() != "{1 9}" {
+		t.Log(x.String())
 		t.Log(x)
-		t.Log(y)
 		t.Fail()
 	}
 
