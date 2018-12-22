@@ -11,13 +11,31 @@ func TestIntersectWith(t *testing.T) {
 	x.Add(9)
 
 	var y IntSet
-	y.Add(1)
+	y.Add(2)
 	y.Add(122)
 	y.Add(9)
 
 	x.IntersectWith(&y)
 
 	if x.String() != "{1 9}" {
+		t.Log(x.String())
+		t.Fail()
+	}
+
+}
+func TestUnionWith(t *testing.T) {
+	var x IntSet
+	x.Add(1)
+	x.Add(9)
+
+	var y IntSet
+	y.Add(2)
+	y.Add(122)
+	y.Add(9)
+
+	x.UnionWith(&y)
+
+	if x.String() != "{1 2 9 122}" {
 		t.Log(x.String())
 		t.Fail()
 	}
