@@ -39,10 +39,11 @@ func TestSymmetricDifference(t *testing.T) {
 	y.Add(1)
 	y.Add(4)
 	y.Add(6)
+	y.Add(100)
 
 	x.SymmetricDifference(&y)
 
-	if x.String() != "{3 4 5 6}" {
+	if x.String() != "{3 4 5 6 100}" {
 		t.Log(x.String())
 		t.Fail()
 	}

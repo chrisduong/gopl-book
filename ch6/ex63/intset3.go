@@ -20,7 +20,7 @@ func (s *IntSet) DifferentWith(t *IntSet) {
 	temp.IntersectWith(t)
 
 	for i := range s.words {
-		s.words[i] ^= temp.words[int]
+		s.words[i] ^= temp.words[i]
 	}
 }
 
@@ -40,8 +40,15 @@ func (s *IntSet) DifferentWith1(t *IntSet) {
 	}
 }
 
-// TODO: try to avoid complicate if statement
 func (s *IntSet) SymmetricDifference(t *IntSet) {
+	temp := s.Copy()
+	temp.IntersectWith(t)
+	s.UnionWith(t)
+	s.DifferentWith(temp)
+}
+
+// TODO: try to avoid complicate if statement
+func (s *IntSet) SymmetricDifference1(t *IntSet) {
 	for i, word := range t.words {
 		if i < len(s.words) {
 			for j := 0; j < 64; j++ {
@@ -83,7 +90,8 @@ func (s *IntSet) IntersectWith(t *IntSet) {
 // Copy return a copy of the set
 func (s *IntSet) Copy() *IntSet {
 	var t IntSet
-	t = *s
+	t.words = make([]uint64, len(s.words))
+	copy(t.words, s.words)
 	return &t
 }
 
