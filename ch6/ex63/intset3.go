@@ -30,6 +30,21 @@ func (s *IntSet) DifferentWith(t *IntSet) {
 	}
 }
 
+func (s *IntSet) SymmetricDifference(t *IntSet) {
+	for i, word := range s.words {
+		if word == 0 {
+			continue
+		}
+		if i < len(t.words) {
+			for j := 0; j < 64; j++ {
+				if word&(1<<uint(j)) != 0 && t.words[i]&(1<<uint(j)) != 0 {
+					s.words[i] = s.words[i] &^ (1 << uint(j))
+				}
+			}
+		}
+	}
+}
+
 func (s *IntSet) IntersectWith(t *IntSet) {
 	for i := range s.words {
 		if i < len(t.words) {

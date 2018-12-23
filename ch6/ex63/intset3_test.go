@@ -25,6 +25,27 @@ func TestDifferentWith(t *testing.T) {
 
 }
 
+func TestSymmetricDifference(t *testing.T) {
+	var x IntSet
+	x.Add(1)
+	x.Add(14)
+	x.Add(9)
+
+	var y IntSet
+	y.Add(1)
+	y.Add(100)
+	y.Add(9)
+	y.Add(15)
+
+	x.SymmetricDifference(&y)
+
+	if x.String() != "{14 15 100}" {
+		t.Log(x.String())
+		t.Fail()
+	}
+
+}
+
 func TestIntersectWith(t *testing.T) {
 	var x IntSet
 	x.Add(1)
