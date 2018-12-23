@@ -18,3 +18,12 @@
 
 - [Bit Shifting](https://python-reference.readthedocs.io/en/latest/docs/operators/bitwise_left_shift.html)
 
+- [Bit Manipulation](https://wiki.python.org/moin/BitManipulation)
+
+- [Bit Clear]:
+  
+// Use bit clear AND NOT &^ to get the bits that are in source AND NOT dest (order matters)
+// 26     = 00011010
+// 6      = 00000110
+// turn (negated)     11111001
+// => 26 &^ 6 = 00011000 

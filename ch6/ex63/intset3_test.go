@@ -46,7 +46,6 @@ func TestSymmetricDifference(t *testing.T) {
 		t.Log(x.String())
 		t.Fail()
 	}
-
 }
 
 func TestIntersectWith(t *testing.T) {
