@@ -7,18 +7,22 @@ import "testing"
 func TestDifferentWith(t *testing.T) {
 	var x IntSet
 	x.Add(1)
-	x.Add(14)
+	x.Add(2)
+	x.Add(3)
+	x.Add(4)
+	x.Add(8)
 	x.Add(9)
 
 	var y IntSet
 	y.Add(1)
+	y.Add(3)
 	y.Add(100)
 	y.Add(9)
 	y.Add(15)
 
 	x.DifferentWith(&y)
 
-	if x.String() != "{14}" {
+	if x.String() != "{2 4 8}" {
 		t.Log(x.String())
 		t.Fail()
 	}
@@ -28,18 +32,17 @@ func TestDifferentWith(t *testing.T) {
 func TestSymmetricDifference(t *testing.T) {
 	var x IntSet
 	x.Add(1)
-	x.Add(14)
-	x.Add(9)
+	x.Add(3)
+	x.Add(5)
 
 	var y IntSet
 	y.Add(1)
-	y.Add(100)
-	y.Add(9)
-	y.Add(15)
+	y.Add(4)
+	y.Add(6)
 
 	x.SymmetricDifference(&y)
 
-	if x.String() != "{14 15 100}" {
+	if x.String() != "{3 4 5 6}" {
 		t.Log(x.String())
 		t.Fail()
 	}

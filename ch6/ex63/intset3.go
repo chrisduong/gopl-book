@@ -23,6 +23,7 @@ func (s *IntSet) DifferentWith(t *IntSet) {
 		if i < len(t.words) {
 			for j := 0; j < 64; j++ {
 				if word&(1<<uint(j))&t.words[i]&(1<<uint(j)) != 0 {
+					// Clear the Set bit
 					s.words[i] = s.words[i] &^ (1 << uint(j))
 				}
 			}
@@ -30,17 +31,32 @@ func (s *IntSet) DifferentWith(t *IntSet) {
 	}
 }
 
+// TODO: try to avoid complicate if statement
 func (s *IntSet) SymmetricDifference(t *IntSet) {
-	for i, word := range s.words {
-		if word == 0 {
-			continue
-		}
-		if i < len(t.words) {
+	for i, word := range t.words {
+		if i < len(s.words) {
 			for j := 0; j < 64; j++ {
-				if word&(1<<uint(j)) != 0 && t.words[i]&(1<<uint(j)) != 0 {
-					s.words[i] = s.words[i] &^ (1 << uint(j))
+				if s.words[i]&(1<<uint(j)) != 0 {
+					if word&(1<<uint(j)) == 0 {
+						continue
+					} else {
+						// Clear the Set bit
+						s.words[i] = s.words[i] &^ (1 << uint(j))
+						continue
+					}
+				}
+				if s.words[i]&(1<<uint(j)) == 0 {
+					if word&(1<<uint(j)) == 0 {
+						continue
+					} else {
+						// Set the Set bit
+						s.words[i] |= 1 << uint(j)
+						continue
+					}
 				}
 			}
+		} else {
+			s.words = append(s.words, word)
 		}
 	}
 }
