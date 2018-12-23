@@ -16,6 +16,15 @@ type IntSet struct {
 }
 
 func (s *IntSet) DifferentWith(t *IntSet) {
+	temp := s.Copy()
+	temp.IntersectWith(t)
+
+	for i := range s.words {
+		s.words[i] ^= temp.words[int]
+	}
+}
+
+func (s *IntSet) DifferentWith1(t *IntSet) {
 	for i, word := range s.words {
 		if word == 0 {
 			continue
