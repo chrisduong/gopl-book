@@ -55,8 +55,8 @@ func TestIntersectWith(t *testing.T) {
 	var y IntSet
 	y.Add(1)
 	y.Add(100)
-	// y.Add(9)
-	// y.Add(15)
+	y.Add(9)
+	y.Add(15)
 
 	x.IntersectWith(&y)
 
