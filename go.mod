@@ -15,6 +15,7 @@ require (
 	github.com/golangci/tools v0.0.0-20181110070903-2cefd77fef9b // indirect
 	github.com/golangci/unparam v0.0.0-20180902115109-7ad9dbcccc16 // indirect
 	github.com/google/pprof v0.0.0-20181206194817-3ea8567a2e57 // indirect
+	github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6 // indirect
 	github.com/mattn/go-isatty v0.0.4 // indirect
 	github.com/nbutton23/zxcvbn-go v0.0.0-20180912185939-ae427f1e4c1d // indirect
 	github.com/onsi/ginkgo v1.7.0 // indirect

@@ -1,5 +1,5 @@
 // The LimitReader function in the io package accepts an io.Reader r and a number of bytes n, and returns another Reader that reads from r but reports an end-of-file condition after n bytes. Implement it
-// “func LimitReader(r io.Reader, n int64) io.Reader”
+// “func LimitReader(r io.Reader, n int) *IOLimitReader  ”
 
 package limitreader
 
@@ -8,29 +8,28 @@ import (
 )
 
 type IOLimitReader struct {
-	R io.Reader
-	N int64
+	r io.Reader
+	n int
 }
 
-// A LimitedReader reads from R but limits the amount of
-// data returned to just N bytes. Each call to Read
-// updates N to reflect the new amount remaining.
-// Read returns EOF when N <= 0 or when the underlying R returns EOF.
 func (l *IOLimitReader) Read(p []byte) (n int, err error) {
-	if l.N <= 0 {
-		return 0, io.EOF
+	// Only read up to the limit
+	if len(p) < l.n {
+		// only read max at len(p)
+		n, err = l.r.Read(p)
+	} else {
+		n, err = l.r.Read(p[:l.n])
 	}
-	if l.N < int64(len(p)) {
-		p = p[0:l.N]
+
+	if err != nil {
+		err = io.EOF
 	}
-	n, err = l.R.Read(p)
-	l.N -= int64(n)
 	return
 }
 
 // LimitReader returns a Reader that reads from r
 // but stops with EOF after n bytes.
 // The underlying implementation is a *LimitedReader.
-func LimitReader(r io.Reader, n int64) *IOLimitReader {
+func LimitReader(r io.Reader, n int) *IOLimitReader {
 	return &IOLimitReader{r, n}
 }
