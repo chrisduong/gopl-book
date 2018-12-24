@@ -16,24 +16,21 @@ type Want struct {
 func TestLimitReader(t *testing.T) {
 	s := "hi there"
 	var tests = []struct {
-		bytes []byte
-		limit int
-		want  Want
+		instance int
+		bytes    []byte
+		limit    int
+		want     Want
 	}{
-		{make([]byte, 8), 9, Want{io.EOF, 8}},
-		{make([]byte, 7), 9, Want{io.EOF, 7}},
-		{make([]byte, 8), 4, Want{io.EOF, 5}},
+		{1, make([]byte, 8), 9, Want{io.EOF, 8}},
+		{2, make([]byte, 7), 9, Want{io.EOF, 7}},
+		{3, make([]byte, 8), 4, Want{io.EOF, 4}},
 	}
 
-	// TODO: need to fix missing full Errorf message
 	for _, test := range tests {
 		r := LimitReader(strings.NewReader(s), test.limit)
 		n, err := r.Read(test.bytes)
-		if (err != test.want.err) && (n != test.want.n) {
-			t.Errorf("%s: got %d, want %d", test.bytes, n, test.want.n)
-			// t.Log(n)
-			// t.Log(err)
-			// t.Fail()
+		if (err != test.want.err) || (n != test.want.n) {
+			t.Errorf("Instance %d: got %d, want %d", test.instance, n, test.want.n)
 		}
 	}
 

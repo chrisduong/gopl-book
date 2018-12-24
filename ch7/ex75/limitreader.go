@@ -13,15 +13,16 @@ type IOLimitReader struct {
 }
 
 func (l *IOLimitReader) Read(p []byte) (n int, err error) {
-	// Only read up to the limit
-	if len(p) < l.n {
-		// only read max at len(p)
-		n, err = l.r.Read(p)
-	} else {
+	if len(p) >= l.n {
+		// Read up to the limit
 		n, err = l.r.Read(p[:l.n])
+	} else {
+		// Read up to len(p) if p is shorter than the limit
+		n, err = l.r.Read(p)
 	}
 
-	if err != nil {
+	// If can read to n limit bytes or read up to len(p)
+	if n == l.n || n == len(p) {
 		err = io.EOF
 	}
 	return
