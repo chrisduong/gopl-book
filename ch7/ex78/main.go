@@ -47,9 +47,8 @@ func printTracks(tracks []*Track) {
 
 // clickSort contain what columns had been clicked
 type clickSort struct {
-	t       []*Track
-	columns []string
-	less    func(x, y *Track) bool
+	t    []*Track
+	less func(x, y *Track) bool
 }
 
 // Defines methods to satisfy the sort Interface
@@ -60,21 +59,15 @@ func (x clickSort) Swap(i, j int)      { x.t[i], x.t[j] = x.t[j], x.t[i] }
 func main() {
 	// supposed the clicked columns are
 	columns := []string{"Title", "Length"}
-	sort.Sort(clickSort{tracks, columns, func(x, y *Track) bool {
+	sort.Sort(clickSort{tracks, func(x, y *Track) bool {
 		for _, col := range columns {
 			switch col {
 			case "Title":
-				if x.Title != y.Title {
-					return x.Title < y.Title
-				}
+				return x.Title < y.Title
 			case "Year":
-				if x.Year != y.Year {
-					return x.Year < y.Year
-				}
+				return x.Year < y.Year
 			case "Length":
-				if x.Length != y.Length {
-					return x.Length < y.Length
-				}
+				return x.Length < y.Length
 			}
 		}
 		return false
