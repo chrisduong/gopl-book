@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -39,9 +40,31 @@ func (db database) update(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "Update item %s's price to %s\n", item, db[item])
 }
 
+// templateData contains a list of items
+type templateData struct {
+	ItemMap database
+}
+
+var itemList = template.Must(template.New("itemlist").Parse(`
+<h1> items </h1>
+<table>
+<tr style='text-align: left'>
+  <th>Item</th>
+  <th>Price</th>
+</tr>
+{{range $item, $price := .ItemMap}}
+<tr>
+  <td>{{$item}}</td>
+  <td>{{$price}}</td>
+</tr>
+{{end}}
+</table>
+`))
+
 func (db database) list(w http.ResponseWriter, req *http.Request) {
-	for item, price := range db {
-		fmt.Fprintf(w, "%s: %s\n", item, price)
+	if err := itemList.Execute(w, &templateData{db}); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintf(w, "failed to execute template: %q\n", err)
 	}
 }
 
