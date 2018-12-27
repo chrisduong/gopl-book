@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 type dollars float32
@@ -13,6 +14,26 @@ type dollars float32
 func (d dollars) String() string { return fmt.Sprintf("$%.2f", d) }
 
 type database map[string]dollars
+
+func (db database) update(w http.ResponseWriter, req *http.Request) {
+	item := req.URL.Query().Get("item")
+	p := req.URL.Query().Get("price")
+	price, err := strconv.ParseFloat(p, 32)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, "Wrong float value: %q\n", p)
+		return
+	}
+	_, ok := db[item]
+	if !ok {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, "no such item: %q\n", item)
+		return
+	}
+
+	db[item] = dollars(price)
+	fmt.Fprintf(w, "Update item %s's price to %s\n", item, db[item])
+}
 
 func (db database) list(w http.ResponseWriter, req *http.Request) {
 	for item, price := range db {
@@ -36,5 +57,6 @@ func main() {
 	mux := http.NewServeMux()
 	mux.Handle("/list", http.HandlerFunc(db.list))
 	mux.Handle("/price", http.HandlerFunc(db.price))
+	mux.Handle("/update", http.HandlerFunc(db.update))
 	log.Fatal(http.ListenAndServe("localhost:8000", mux))
 }
