@@ -7,7 +7,10 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"sync"
 )
+
+var dbMux sync.Mutex
 
 type dollars float32
 
@@ -17,11 +20,11 @@ type database map[string]dollars
 
 func (db database) update(w http.ResponseWriter, req *http.Request) {
 	item := req.URL.Query().Get("item")
-	p := req.URL.Query().Get("price")
-	price, err := strconv.ParseFloat(p, 32)
+	priceStr := req.URL.Query().Get("price")
+	price, err := strconv.ParseFloat(priceStr, 32)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "Wrong float value: %q\n", p)
+		fmt.Fprintf(w, "Wrong price value: %q\n", priceStr)
 		return
 	}
 	_, ok := db[item]
@@ -30,8 +33,9 @@ func (db database) update(w http.ResponseWriter, req *http.Request) {
 		fmt.Fprintf(w, "no such item: %q\n", item)
 		return
 	}
-
+	dbMux.Lock()
 	db[item] = dollars(price)
+	dbMux.Unlock()
 	fmt.Fprintf(w, "Update item %s's price to %s\n", item, db[item])
 }
 
