@@ -2,6 +2,7 @@ module github.com/chrisduong/gopl-book
 
 require (
 	github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705 // indirect
+	github.com/chrisduong/gopl v0.0.0-20170523034600-44d1a567bcb3 // indirect
 	github.com/fatih/color v1.7.0 // indirect
 	github.com/go-critic/checkers v0.0.0-20181204210945-97246d3b3c67 // indirect
 	github.com/go-lintpack/lintpack v0.5.1 // indirect
