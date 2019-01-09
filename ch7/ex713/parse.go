@@ -1,5 +1,8 @@
 // Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
 // License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+// I added a postfix unary factorial operator, '!', requiring changes to parsePrimary in parse.go.
+
+// I'm using the gamma function to compute factorials so floats can be handled and error handling avoided, which I'm not sure is correct mathematically and could expose floating point peculiarities but seems ok for the values I've tried.
 
 package eval
 
@@ -97,14 +100,19 @@ func parseBinary(lex *lexer, prec1 int) Expr {
 	return lhs
 }
 
-// unary = '+' expr | primary
+// unary = '+' expr | primary | primary '!'
 func parseUnary(lex *lexer) Expr {
 	if lex.token == '+' || lex.token == '-' {
 		op := lex.token
-		lex.next() // consume '+' or '-'
+		lex.next()
 		return unary{op, parseUnary(lex)}
 	}
-	return parsePrimary(lex)
+	primary := parsePrimary(lex)
+	if lex.token == '!' {
+		lex.next()
+		return postUnary{'!', primary}
+	}
+	return primary
 }
 
 // primary = id

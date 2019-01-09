@@ -46,3 +46,7 @@ func (c call) String() string {
 	}
 	return "???()"
 }
+
+func (p postUnary) String() string {
+	return fmt.Sprintf("(%s)%s", p.x.String(), string(p.op))
+}

@@ -9,7 +9,6 @@ type Expr interface {
 	Eval(env Env) float64
 	// Check reports errors in this Expr and adds its Vars to the set.
 	Check(vars map[Var]bool) error
-
 	String() string
 }
 
@@ -37,6 +36,11 @@ type binary struct {
 type call struct {
 	fn   string // one of "pow", "sin", "sqrt"
 	args []Expr
+}
+
+type postUnary struct {
+	op rune // one of '!'
+	x  Expr
 }
 
 //!-ast

@@ -3,6 +3,9 @@
 
 // See page 198.
 
+// “Define a new concrete type that satisfies the Expr interface and provides a new operation such as computing the minimum value of its operands. Since the Parse function does not create instances of this new type, to use it you will need to construct a syntax tree directly (or extend the parser)”
+
+
 // Package eval provides an expression evaluator.
 package eval
 
@@ -65,6 +68,14 @@ func (c call) Eval(env Env) float64 {
 		return math.Sqrt(c.args[0].Eval(env))
 	}
 	panic(fmt.Sprintf("unsupported function call: %s", c.fn))
+}
+
+func (p postUnary) Eval(env Env) float64 {
+	switch p.op {
+	case '!':
+		return math.Gamma(p.x.Eval(env) + 1)
+	}
+	panic(fmt.Sprintf("unsupported post-unary operator: %q", p.op))
 }
 
 //!-Eval2
