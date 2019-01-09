@@ -50,3 +50,4 @@ func main() {
 }
 
 //!-
+// “./issueshtml repo:golang/go commenter:gopherbot json encoder >issues.html”
