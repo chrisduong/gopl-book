@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	eval "github.com/chrisduong/gopl-book/ch7/ex7.14"
+	eval "github.com/chrisduong/gopl-book/ch7/ex714"
 )
 
 const assignment_error = 2
