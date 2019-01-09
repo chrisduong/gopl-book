@@ -26,6 +26,7 @@ require (
 	github.com/spf13/afero v1.2.0 // indirect
 	github.com/spf13/cobra v0.0.3 // indirect
 	github.com/spf13/viper v1.3.1 // indirect
+	github.com/torbiak/gopl v0.0.0-20180919155712-052bf308f615
 	github.com/ugorji/go/codec v0.0.0-20181209151446-772ced7fd4c2 // indirect
 	golang.org/x/arch v0.0.0-20181203225421-5a4828bb7045 // indirect
 	golang.org/x/net v0.0.0-20181217023233-e147a9138326
