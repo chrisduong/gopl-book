@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strings"
 )
 
 type Node interface{} // CharData or *Element
@@ -73,10 +72,7 @@ func parse(r io.Reader) (Node, error) {
 }
 
 func main() {
-	// node, err := parse(os.Stdin)
-	input := "<A><B><C>hello</C><D>abc</D></B><C>world</C></A>"
-	fmt.Println("Parsing input:", input)
-	node, err := parse(strings.NewReader(input))
+	node, err := parse(os.Stdin)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
