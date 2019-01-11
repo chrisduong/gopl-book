@@ -13,6 +13,7 @@ func main() {
 		_ = os.MkdirAll(dir, 0755)
 		rmdirs = append(rmdirs, func() {
 			os.RemoveAll(dir) // NOTE: incorrect!
+			// Anonymous function only capture the addressable variable, not its value at the particular moment.
 			// This will print 3, 3, 3 on runtime
 			fmt.Println(dir)
 
