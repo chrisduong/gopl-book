@@ -33,3 +33,18 @@ func mustCopy(dst io.Writer, src io.Reader) {
 		log.Fatal(err)
 	}
 }
+
+// ❯ bin/netcat4
+// kl
+//          KL
+// flk
+//          kl
+// fkj      kl
+//          FLK
+
+// ^D       flk // NOTE: end the input
+//          flk
+//          FKJ
+//          fkj
+//          fkj
+// 2019/01/12 15:43:51 done
