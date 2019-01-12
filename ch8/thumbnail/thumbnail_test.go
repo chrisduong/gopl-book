@@ -7,9 +7,11 @@
 package thumbnail_test
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"sync"
+	"testing"
 
 	"gopl.io/ch8/thumbnail"
 )
@@ -131,7 +133,7 @@ func makeThumbnails6(filenames <-chan string) int64 {
 			sizes <- info.Size()
 		}(f)
 	}
-
+	fmt.Println("Im here")
 	// closer
 	go func() {
 		wg.Wait()
@@ -143,6 +145,20 @@ func makeThumbnails6(filenames <-chan string) int64 {
 		total += size
 	}
 	return total
+}
+
+func TestMakeThumbnails6(t *testing.T) {
+	filenames := make(chan string, 2)
+	filenames <- "1.jpg"
+	filenames <- "2.jpg"
+	// NOTE: have to close here so that the `range` loop in the func
+	// makeThumbnails6 can end
+	close(filenames)
+	var result int64
+	result = makeThumbnails6(filenames)
+	if result == 0 {
+		t.Fatal("Fail")
+	}
 }
 
 //!-6
