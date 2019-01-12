@@ -12,12 +12,13 @@ import (
 	"time"
 )
 
-func echo(c net.Conn, shout string, delay time.Duration) {
+func echo(c net.Conn, shout string, delay time.Duration, wg *sync.WaitGroup) {
 	fmt.Fprintln(c, "\t", strings.ToUpper(shout))
 	time.Sleep(delay)
 	fmt.Fprintln(c, "\t", shout)
 	time.Sleep(delay)
 	fmt.Fprintln(c, "\t", strings.ToLower(shout))
+	wg.Done()
 }
 
 //!+
@@ -26,14 +27,13 @@ func handleConn(c net.Conn) {
 	var wg sync.WaitGroup
 	for input.Scan() {
 		wg.Add(1)
-		go echo(c, input.Text(), 1*time.Second)
-		wg.Done()
+		go echo(c, input.Text(), 1*time.Second, &wg)
 	}
 	wg.Wait()
 	// NOTE: ignoring potential errors from input.Err()
 	// NOTE: convert conn to TCP connection so we can do CloseWrite
 	if tcpCon, ok := c.(*net.TCPConn); ok {
-		tcpCon.CloseWrite()
+		_ = tcpCon.CloseWrite() // Ignore errors
 	}
 }
 
