@@ -31,8 +31,10 @@ func handleConn(c net.Conn) {
 	}
 	wg.Wait()
 	// NOTE: ignoring potential errors from input.Err()
-	// TODO: closeWrite on net Conn
-	c.Close()
+	// NOTE: convert conn to TCP connection so we can do CloseWrite
+	if tcpCon, ok := c.(*net.TCPConn); ok {
+		tcpCon.CloseWrite()
+	}
 }
 
 //!-
