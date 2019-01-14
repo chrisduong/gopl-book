@@ -1,80 +1,87 @@
 // “Take an existing CPU-bound sequential program, such as the Mandelbrot program of Section 3.3 or the 3-D surface computation of Section 3.2, and execute its main loop in parallel using channels for communication. How much faster does it run on a multiprocessor machine? What is the optimal number of goroutines to use?”
 
 // Mandelbrot emits a PNG image of the Mandelbrot fractal.
+// “Take an existing CPU-bound sequential program, such as the Mandelbrot program of Section 3.3 or the 3-D surface computation of Section 3.2, and execute its main loop in parallel using channels for communication. How much faster does it run on a multiprocessor machine? What is the optimal number of goroutines to use?”
+
+// Mandelbrot emits a PNG image of the Mandelbrot fractal.
 package main
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"image/png"
+	"log"
+	"math"
 	"math/cmplx"
-	"os"
+	"net/http"
+	"runtime"
+	"sync"
+	"time"
+)
+
+const (
+	xmin, ymin, xmax, ymax = -2, -2, +2, +2
+	width, height          = 1024, 1024
 )
 
 func main() {
-	const (
-		xmin, ymin, xmax, ymax = -2, -2, +2, +2
-		width, height          = 1024, 1024
-	)
-
+	workers := runtime.GOMAXPROCS(-1)
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
-	for py := 0; py < height; py++ {
-		y := float64(py)/height*(ymax-ymin) + ymin
-		for px := 0; px < width; px++ {
-			x := float64(px)/width*(xmax-xmin) + xmin
-			z := complex(x, y)
-			// Image point (px, py) represents complex value z.
-			img.Set(px, py, mandelbrot(z))
-		}
+	start := time.Now()
+	wg := sync.WaitGroup{}
+	rows := make(chan int, height)
+	for row := 0; row < height; row++ {
+		rows <- row
 	}
-	png.Encode(os.Stdout, img) // NOTE: ignoring errors
-}
-
-func mandelbrot(z complex128) color.Color {
-	const iterations = 200
-	const contrast = 15
-
-	var v complex128
-	for n := uint8(0); n < iterations; n++ {
-		v = v*v + z
-		if cmplx.Abs(v) > 2 {
-			return color.Gray{255 - contrast*n}
-		}
+	close(rows)
+	for i := 0; i < workers; i++ {
+		wg.Add(1)
+		go func() {
+			for py := range rows {
+				y := float64(py)/height*(ymax-ymin) + ymin
+				for px := 0; px < width; px++ {
+					x := float64(px)/width*(xmax-xmin) + xmin
+					// Image point (px, py) represents complex value z.
+					z := complex(x, y)
+					img.Set(px, py, newton(z))
+				}
+			}
+			wg.Done()
+		}()
 	}
-	return color.Black
+	wg.Wait()
+
+	fmt.Println("rendered in:", time.Since(start))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		png.Encode(w, img) // NOTE: ignoring errors
+	})
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-//!-
-
-// Some other interesting functions:
-
-func acos(z complex128) color.Color {
-	v := cmplx.Acos(z)
-	blue := uint8(real(v)*128) + 127
-	red := uint8(imag(v)*128) + 127
-	return color.YCbCr{192, blue, red}
-}
-
-func sqrt(z complex128) color.Color {
-	v := cmplx.Sqrt(z)
-	blue := uint8(real(v)*128) + 127
-	red := uint8(imag(v)*128) + 127
-	return color.YCbCr{128, blue, red}
-}
-
-// f(x) = x^4 - 1
+// z^4 - 1 = 0
+// 4z^3
 //
-// z' = z - f(z)/f'(z)
-//    = z - (z^4 - 1) / (4 * z^3)
-//    = z - (z - 1/z^3) / 4
+// z' = z - f(x)/f'(x)
+// z' = z - (z^4 - 1) / 4z^3
+// z' = z - z/4 - z^3/4
+// z' = (3z-z^3)/4
+// OR z' -= (z-z^3)/4
 func newton(z complex128) color.Color {
-	const iterations = 37
-	const contrast = 7
-	for i := uint8(0); i < iterations; i++ {
+	iterations := 37
+	for n := uint8(0); int(n) < iterations; n++ {
 		z -= (z - 1/(z*z*z)) / 4
-		if cmplx.Abs(z*z*z*z-1) < 1e-6 {
-			return color.Gray{255 - contrast*i}
+		if cmplx.Abs(cmplx.Pow(z, 4)-1) < 1e-6 {
+			return color.Gray{255 - uint8(math.Log(float64(n))/math.Log(float64(iterations+0))*255)}
 		}
 	}
 	return color.Black
 }
+
+// ** No goroutine **
+// bin/mandelbrot  0.27s user 0.01s system 28% cpu 0.991 total
+
+// ** With goroutine **
+// bin/mandelbrot2
+// rendered in: 328.550817ms
+
