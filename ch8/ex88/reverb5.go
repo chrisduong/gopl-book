@@ -1,4 +1,5 @@
 // “Using a select statement, add a timeout to the echo server from Section 8.3 so that it disconnects any client that shouts nothing within 10 seconds.”
+// We use `4 seconds` for faster debug
 
 package main
 
@@ -13,28 +14,51 @@ import (
 )
 
 func echo(c net.Conn, shout string, delay time.Duration, wg *sync.WaitGroup) {
+	defer wg.Done()
 	fmt.Fprintln(c, "\t", strings.ToUpper(shout))
 	time.Sleep(delay)
 	fmt.Fprintln(c, "\t", shout)
 	time.Sleep(delay)
 	fmt.Fprintln(c, "\t", strings.ToLower(shout))
-	wg.Done()
+
 }
 
 //!+
 func handleConn(c net.Conn) {
-	input := bufio.NewScanner(c)
 	var wg sync.WaitGroup
-	for input.Scan() {
-		wg.Add(1)
-		go echo(c, input.Text(), 1*time.Second, &wg)
+	input := bufio.NewScanner(c)
+	lines := make(chan string)
+
+	defer func() {
+		wg.Wait()
+		if tcpCon, ok := c.(*net.TCPConn); ok {
+			_ = tcpCon.CloseWrite()
+		}
+	}()
+
+	go func() {
+		for input.Scan() {
+			lines <- input.Text()
+		}
+	}()
+
+	// handle 4 seconds timeout
+	timeout := 4 * time.Second
+	timer := time.NewTimer(timeout)
+	// Need to poll a channel to get any inputs
+	for {
+		select {
+		case <-timer.C:
+			return
+			// need case for retrieving sth from the channel when reading
+			// before sending to client.
+		case line := <-lines:
+			timer.Reset(timeout)
+			wg.Add(1)
+			go echo(c, line, 1*time.Second, &wg)
+		}
 	}
-	wg.Wait()
-	// NOTE: ignoring potential errors from input.Err()
-	// NOTE: convert conn to TCP connection so we can do CloseWrite
-	if tcpCon, ok := c.(*net.TCPConn); ok {
-		_ = tcpCon.CloseWrite() // Ignore errors
-	}
+
 }
 
 //!-

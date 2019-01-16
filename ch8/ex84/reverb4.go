@@ -25,7 +25,10 @@ func echo(c net.Conn, shout string, delay time.Duration, wg *sync.WaitGroup) {
 func handleConn(c net.Conn) {
 	input := bufio.NewScanner(c)
 	var wg sync.WaitGroup
+	fmt.Println("Im here 1!")
+	fmt.Println(input.Scan())
 	for input.Scan() {
+		fmt.Println("Im here 2!")
 		wg.Add(1)
 		go echo(c, input.Text(), 1*time.Second, &wg)
 	}
