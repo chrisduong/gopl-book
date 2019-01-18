@@ -20,8 +20,7 @@ func TestRewriteLocalLinks(t *testing.T) {
 		t.Fatal(err)
 	}
 	nodes := linkNodes(doc)
-	
-	(nodes, url_)
+	rewriteLocalLinks(nodes, url_)
 	want := "/d/e"
 	got := nodes[0].Attr[0].Val
 	if got != want {
