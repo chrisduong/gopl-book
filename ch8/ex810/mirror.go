@@ -1,5 +1,7 @@
 // “HTTP requests may be cancelled by closing the optional Cancel channel in the http.Request struct. Modify the web crawler of Section 8.6 to support cancellation.”
 
+// “Hint: the http.Get convenience function does not give you an opportunity to customize a Request. Instead, create the request using http.NewRequest, set its Cancel field, then perform the request by calling http.DefaultClient.Do(req). ”
+
 // ex8.7 mirrors a website to a given depth using multiple goroutines and
 // rewrites local links.
 package main
@@ -13,6 +15,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/signal"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -28,11 +31,11 @@ var seen = make(map[string]bool)
 var seenLock = sync.Mutex{}
 var base *url.URL
 
-func crawl(url string, depth int, wg *sync.WaitGroup) {
+func crawl(url string, depth int, wg *sync.WaitGroup, abort chan struct{}) {
 	defer wg.Done()
 
 	tokens <- struct{}{} // acquire a token
-	urls, err := visit(url)
+	urls, err := visit(url, abort)
 	<-tokens //release token
 	if err != nil {
 		log.Printf("visit %s: %s", url, err)
@@ -50,7 +53,7 @@ func crawl(url string, depth int, wg *sync.WaitGroup) {
 		seen[link] = true
 		seenLock.Unlock()
 		wg.Add(1)
-		go crawl(link, depth+1, wg)
+		go crawl(link, depth+1, wg, abort)
 	}
 }
 
@@ -126,9 +129,14 @@ func rewriteLocalLinks(linkNodes []*html.Node, base *url.URL) {
 }
 
 // visit appends to links each link found in n and returns the result.
-func visit(rawurl string) (urls []string, err error) {
+func visit(rawurl string, abort chan struct{}) (urls []string, err error) {
 	fmt.Println(rawurl)
-	resp, err := http.Get(rawurl)
+	req, err := http.NewRequest("GET", rawurl, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Cancel = abort
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -214,10 +222,32 @@ func main() {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "invalid url: %s\n", err)
 	}
+
+	var done = make(chan struct{})
+	go func() {
+		wg.Wait()
+		done <- struct{}{}
+	}()
+
+	var abort = make(chan struct{})
+
 	base = u
 	for _, link := range flag.Args() {
 		wg.Add(1)
-		go crawl(link, 1, wg)
+		go crawl(link, 1, wg, abort)
 	}
-	wg.Wait()
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt)
+
+	// Create a logic for polling the Crawl jobs and the interruption signal
+	// - Create a channel done for all crawl jobs
+	// - Create a channel interrup in case user want to cancel the crawl
+	select {
+	case <-interrupt:
+		close(abort)
+	case <-done:
+		return
+	}
 }
+
+// go run ch8/ex810/mirror.go http://gopl.io
