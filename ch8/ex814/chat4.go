@@ -55,19 +55,8 @@ func broadcaster() {
 
 //!+handleConn communicate to a single client
 func handleConn(conn net.Conn) {
-	ch := make(chan string) // outgoing client messages
-	go clientWriter(conn, ch)
-
-	who := conn.RemoteAddr().String()
-	// NOTE: type coercion `ch` to `client` object so you can pass it to
-	// channel `entering`
-	cli := client{ch, who}
-	cli.Out <- "You are " + who
-	messages <- who + " has arrived"
-	entering <- cli
-
 	// Set timer to close the connection
-	timeout := 4 * time.Second
+	timeout := 8 * time.Second
 	timer := time.NewTimer(timeout)
 
 	go func() {
@@ -75,7 +64,22 @@ func handleConn(conn net.Conn) {
 		conn.Close()
 	}()
 
+	// Force to input the client name first
+	var who string
+	fmt.Fprint(conn, "Please input your name: ")
 	input := bufio.NewScanner(conn)
+	input.Scan()
+	who = input.Text()
+
+	ch := make(chan string) // outgoing client messages
+	go clientWriter(conn, ch)
+
+	cli := client{ch, who}
+	cli.Out <- "You are " + who
+	messages <- who + " has arrived"
+	entering <- cli
+
+	// input := bufio.NewScanner(conn)
 	for input.Scan() {
 		messages <- who + ": " + input.Text()
 		timer.Reset(timeout)
