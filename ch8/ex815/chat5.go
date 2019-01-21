@@ -57,7 +57,7 @@ func broadcaster() {
 //!+handleConn communicate to a single client
 func handleConn(conn net.Conn) {
 	// Set timer to close the connection
-	timeout := 8 * time.Second
+	timeout := 5 * time.Second
 	timer := time.NewTimer(timeout)
 
 	go func() {
@@ -72,7 +72,10 @@ func handleConn(conn net.Conn) {
 	input.Scan()
 	who = input.Text()
 
-	ch := make(chan string) // outgoing client messages
+	// Buffer 10 messages for client for testing
+	// TODO: need to verify the blocking case if we send the 3rd msg
+	// to the channel
+	ch := make(chan string, 10) // outgoing client messages
 	go clientWriter(conn, ch)
 
 	cli := client{ch, who}

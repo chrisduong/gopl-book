@@ -6,6 +6,8 @@
 
 [gopl-solutions](https://github.com/vinceyuan/gopl-solutions)
 
+[kdama/gopl](https://github.com/kdama/gopl)
+
 ## Chapter 6
 
 ### Bit Vector (aka. Bit Array)
