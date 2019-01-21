@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strings"
 	"time"
 )
 
@@ -38,10 +39,11 @@ func broadcaster() {
 
 		case cli := <-entering:
 			clients[cli] = true
-			cli.Out <- "Current clients: "
+			var onlines []string
 			for c := range clients {
-				cli.Out <- c.Name
+				onlines = append(onlines, c.Name)
 			}
+			cli.Out <- fmt.Sprintf("%d clients: %s", len(clients), strings.Join(onlines, ", "))
 
 		case cli := <-leaving:
 			delete(clients, cli)
