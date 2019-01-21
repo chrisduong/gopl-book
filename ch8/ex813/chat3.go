@@ -66,28 +66,26 @@ func handleConn(conn net.Conn) {
 	messages <- who + " has arrived"
 	entering <- cli
 
+	timeout := 4 * time.Second
+	timer := time.NewTimer(timeout)
+
+	go func() {
+		<-timer.C
+		conn.Close()
+	}()
+
 	input := bufio.NewScanner(conn)
+	// Make new goroutine here
 	go func() {
 		for input.Scan() {
 			messages <- who + ": " + input.Text()
+			timer.Reset(timeout)
 		}
 	}()
 	// NOTE: ignoring potential errors from input.Err()
-
-	// Polling timer with 4s timeout
-	timeout := 4 * time.Second
-	timer := time.NewTimer(timeout)
-	for {
-		select {
-		case <-timer.C:
-			leaving <- cli
-			messages <- who + " has left"
-			conn.Close()
-			return
-		case <-messages:
-			timer.Reset(timeout)
-		}
-	}
+	leaving <- cli
+	messages <- who + " has left"
+	conn.Close()
 }
 
 func clientWriter(conn net.Conn, ch <-chan string) {
