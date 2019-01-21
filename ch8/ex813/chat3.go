@@ -1,6 +1,6 @@
 // “Make the chat server disconnect idle clients, such as those that have sent no messages in the last five minutes. Hint: calling conn.Close() in another goroutine unblocks active Read calls such as the one done by input.Scan()”
 
-/ Chat is a server that lets clients chat with each other.
+// Chat is a server that lets clients chat with each other.
 package main
 
 import (
@@ -24,6 +24,7 @@ var (
 	messages = make(chan string) // all incoming client messages
 )
 
+// broadcast broadcasts messages to all client
 func broadcaster() {
 	clients := make(map[client]bool) // all connected clients
 	for {
@@ -51,7 +52,7 @@ func broadcaster() {
 
 //!-broadcaster
 
-//!+handleConn
+//!+handleConn communicate to a single client
 func handleConn(conn net.Conn) {
 	ch := make(chan string) // outgoing client messages
 	go clientWriter(conn, ch)

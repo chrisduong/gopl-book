@@ -24,6 +24,7 @@ var (
 	messages = make(chan string) // all incoming client messages
 )
 
+// broadcast broadcasts messages to all client
 func broadcaster() {
 	clients := make(map[client]bool) // all connected clients
 	for {
@@ -51,7 +52,7 @@ func broadcaster() {
 
 //!-broadcaster
 
-//!+handleConn
+//!+handleConn communicate to a single client
 func handleConn(conn net.Conn) {
 	ch := make(chan string) // outgoing client messages
 	go clientWriter(conn, ch)
