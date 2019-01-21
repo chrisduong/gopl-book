@@ -75,7 +75,7 @@ func handleConn(conn net.Conn) {
 	}()
 
 	input := bufio.NewScanner(conn)
-	// Make new goroutine here
+	// Make new goroutine here as of polling
 	go func() {
 		for input.Scan() {
 			messages <- who + ": " + input.Text()
