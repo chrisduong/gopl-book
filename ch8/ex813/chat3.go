@@ -66,6 +66,7 @@ func handleConn(conn net.Conn) {
 	messages <- who + " has arrived"
 	entering <- cli
 
+	// Set timer to close the connection
 	timeout := 4 * time.Second
 	timer := time.NewTimer(timeout)
 
@@ -75,13 +76,10 @@ func handleConn(conn net.Conn) {
 	}()
 
 	input := bufio.NewScanner(conn)
-	// Make new goroutine here as of polling
-	go func() {
-		for input.Scan() {
-			messages <- who + ": " + input.Text()
-			timer.Reset(timeout)
-		}
-	}()
+	for input.Scan() {
+		messages <- who + ": " + input.Text()
+		timer.Reset(timeout)
+	}
 	// NOTE: ignoring potential errors from input.Err()
 	leaving <- cli
 	messages <- who + " has left"
