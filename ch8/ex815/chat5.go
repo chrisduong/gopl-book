@@ -28,22 +28,35 @@ var (
 // broadcast broadcasts messages to all client
 func broadcaster() {
 	clients := make(map[client]bool) // all connected clients
+	// Define a bufferred channel
+	bOut := make(chan<- string, 10)
+	// Copied from the client channel
+	bCli := client{bOut, ""}
 	for {
 		select {
 		case msg := <-messages:
 			// Broadcast incoming message to all
 			// clients' outgoing message channels.
-			for cli := range clients {
-				cli.Out <- msg
+			// NOTE: Non-blocking sending message to client outgoing message channel
+			for bCli = range clients {
+				// DEBUG: Cap is shown as 10. Which might be working
+				// DEBUG It its still 0 length means, unbufferred channel
+				// fmt.Printf("current client message length: %d", len(bCli.Out))
+				// fmt.Printf("current client message capacity: %d", cap(bCli.Out))
+				select {
+				case bCli.Out <- msg:
+				default:
+					fmt.Println("Channel is full, skip the message")
+				}
 			}
 
-		case cli := <-entering:
-			clients[cli] = true
+		case bCli = <-entering:
+			clients[bCli] = true
 			var onlines []string
 			for c := range clients {
 				onlines = append(onlines, c.Name)
 			}
-			cli.Out <- fmt.Sprintf("%d clients: %s", len(clients), strings.Join(onlines, ", "))
+			bCli.Out <- fmt.Sprintf("%d clients: %s", len(clients), strings.Join(onlines, ", "))
 
 		case cli := <-leaving:
 			delete(clients, cli)
