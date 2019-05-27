@@ -189,3 +189,7 @@ y, err := strconv.ParseInt("123", 10, 64) // base 10, up to 64 bits”
 ```
 
 Sometimes `fmt.Scanf` is useful for parsing input that consists of orderly mixtures of strings and numbers all on a single line, but it can be inflexible, especially when handling incomplete or irregular input
+
+## 3.6 Constants
+
+### 3.6.1 The Constant Generator iota
