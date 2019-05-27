@@ -193,3 +193,5 @@ Sometimes `fmt.Scanf` is useful for parsing input that consists of orderly mixtu
 ## 3.6 Constants
 
 ### 3.6.1 The Constant Generator iota
+
+### 3.6.2 Untyped Constants
