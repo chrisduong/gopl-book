@@ -55,4 +55,8 @@ func arrayContains(array []string, value string) bool {
 	return false
 }
 
-//!-
+//!+ TEST
+// go run ch1/ex1_4/main.go ch1/ex1_4/data1.txt ch1/ex1_4/data2.txt
+//!+ OUTPUT
+// 3       aaa     [ch1/ex1_4/data1.txt ch1/ex1_4/data2.txt]
+// 2       abc     [ch1/ex1_4/data1.txt ch1/ex1_4/data2.txt]
