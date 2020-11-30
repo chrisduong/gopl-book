@@ -3,18 +3,16 @@
 package hashdiffbits_test
 
 import (
-	"crypto/sha256"
 	"testing"
 
-	"github.com/chrisduong/gopl-book/ch4/hashdiffbits"
+	"github.com/chrisduong/gopl-book/ch4/ex41/hashdiffbits"
 )
 
 func TestHashDiffBits(t *testing.T) {
-	sha1 := sha256.Sum256([]byte("x"))
-	sha2 := sha256.Sum256([]byte("Y"))
-	result := hashdiffbits.Diff(sha1, sha2)
-	if result != 4 {
-		t.Logf("%d != 4", result)
+	diff_count := hashdiffbits.Diff([]byte("x"), []byte("X"))
+
+	if diff_count != 125 {
+		t.Logf("%d != 4", diff_count)
 		t.Fail()
 	}
 }

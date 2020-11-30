@@ -1,6 +1,6 @@
 module github.com/chrisduong/gopl-book
 
-go 1.12
+go 1.13
 
 require (
 	golang.org/x/net v0.0.0-20190503192946-f4e77d36d62c
