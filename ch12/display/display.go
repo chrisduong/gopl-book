@@ -10,10 +10,10 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 //!+Display
-
 func Display(name string, x interface{}) {
 	fmt.Printf("Display %s (%T):\n", name, x)
 	display(name, reflect.ValueOf(x))
@@ -50,6 +50,25 @@ func formatAtom(v reflect.Value) string {
 	}
 }
 
+func formatAtomSpecial(v reflect.Value) string {
+	switch v.Kind() {
+	case reflect.Array:
+		keys := []string{}
+		for i := 0; i < v.Len(); i++ {
+			keys = append(keys, formatAtom(v.Index(i)))
+		}
+		return fmt.Sprintf("[%s]", strings.Join(keys, ", "))
+	case reflect.Struct:
+		keys := []string{}
+		for i := 0; i < v.NumField(); i++ {
+			keys = append(keys, formatAtom(v.Field(i)))
+		}
+		return fmt.Sprintf("{%s}", strings.Join(keys, ", "))
+	default:
+		return formatAtom(v)
+	}
+}
+
 //!+display
 func display(path string, v reflect.Value) {
 	switch v.Kind() {
@@ -67,7 +86,8 @@ func display(path string, v reflect.Value) {
 	case reflect.Map:
 		for _, key := range v.MapKeys() {
 			display(fmt.Sprintf("%s[%s]", path,
-				formatAtom(key)), v.MapIndex(key))
+				// formatAtom(key)), v.MapIndex(key))
+				formatAtomSpecial(key)), v.MapIndex(key))
 		}
 	case reflect.Ptr:
 		if v.IsNil() {

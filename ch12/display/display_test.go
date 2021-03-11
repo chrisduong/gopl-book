@@ -65,6 +65,23 @@ func Example_struct() {
 	// x.x.value = 3
 }
 
+func Example_map() {
+	Display("x", map[string]string{"foo": "bar"})
+	Display("y", map[interface{}]interface{}{1: "bar"})
+	Display("array", map[[2]string]string{{"foo", "bar"}: "hello"})
+	Display("x", map[struct{ x, y int }]string{{3, 4}: "bar"})
+	// Output:
+	// Display x (map[string]string):
+	// x["foo"] = "bar"
+	// Display y (map[interface {}]interface {}):
+	// y[interface {} value].type = string
+	// y[interface {} value].value = "bar"
+	// Display array (map[[2]string]string):
+	// array[["foo", "bar"]] = "hello"
+	// Display x (map[struct { x int; y int }]string):
+	// x[{3 4}] = "bar"
+}
+
 func Example_interface() {
 	var i interface{} = 3
 	Display("i", i)

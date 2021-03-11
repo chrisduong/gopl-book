@@ -1,4 +1,4 @@
-# The Go Programming Language
+# The Go Programming Language Playbook
 
 This repository provides the downloadable example programs
 for the book, "The Go Programming Language"; see http://www.gopl.io.
